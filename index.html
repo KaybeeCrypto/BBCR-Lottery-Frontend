@@ -111,9 +111,38 @@
       <section id="status" class="section">
         <div class="container">
           <h2 class="section__title">Live status</h2>
+          <p class="section__text">
+            This section shows the latest round pulled from the backend.
+          </p>
 
-          <div id="round-status" class="status-box">
-            Loading current round…
+          <div class="card" style="max-width: 520px;">
+            <div class="card__head">
+              <div class="card__title">Current round</div>
+              <div id="round-pill" class="pill pill--loading">Loading…</div>
+            </div>
+
+            <div class="card__body">
+              <div class="kv">
+                <div class="kv__label">Round ID</div>
+                <div id="round-id" class="kv__value">—</div>
+              </div>
+
+              <div class="kv">
+                <div class="kv__label">Status</div>
+                <div id="round-status-text" class="kv__value">—</div>
+              </div>
+
+              <div class="kv">
+                <div class="kv__label">Started</div>
+                <div id="round-started" class="kv__value">—</div>
+              </div>
+
+              <div class="divider"></div>
+
+              <div id="round-message" class="muted">
+                Waiting for round data…
+              </div>
+            </div>
           </div>
         </div>
       </section>
