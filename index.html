@@ -6,6 +6,58 @@
   <title>COMMIT</title>
   <meta name="description" content="Provably fair holder lottery on Solana." />
   <link rel="stylesheet" href="./styles.css" />
+
+  <!-- Layout & background fixes -->
+  <style>
+    /* One continuous background canvas */
+    .page {
+      min-height: 100vh;
+      background:
+        radial-gradient(
+          1200px 600px at 10% 35%,
+          rgba(128, 64, 255, 0.35),
+          transparent 70%
+        ),
+        radial-gradient(
+          1200px 600px at 90% 65%,
+          rgba(0, 200, 160, 0.35),
+          transparent 70%
+        ),
+        #070b10;
+    }
+
+    /* Sections float on top of the background */
+    .section {
+      background: transparent;
+      padding: 140px 0;
+      position: relative;
+    }
+
+    /* Extra-large sections for major chapters */
+    .section--large {
+      padding: 200px 0;
+    }
+
+    /* Prevent content from floating mid-air */
+    .section > .container {
+      max-width: 1100px;
+    }
+
+    /* Slow down scroll rhythm */
+    .steps {
+      margin-top: 100px;
+      gap: 32px;
+    }
+
+    .step {
+      padding: 28px 32px;
+    }
+
+    /* Give Live Status a proper stage */
+    #status.section {
+      padding-bottom: 220px;
+    }
+  </style>
 </head>
 <body>
   <div class="page">
@@ -30,7 +82,7 @@
     <main class="main">
 
       <!-- HERO -->
-      <section class="hero">
+      <section class="hero section--large">
         <div class="container hero__inner">
           <div class="hero__copy">
             <h1 class="hero__title">
@@ -48,7 +100,7 @@
             </div>
           </div>
 
-          <!-- System Status Card (kept, but no longer dominant) -->
+          <!-- System Status Card -->
           <div class="hero__card">
             <div class="card">
               <div class="card__head">
@@ -84,7 +136,7 @@
       </section>
 
       <!-- WHY COMMIT -->
-      <section class="section">
+      <section class="section section--large">
         <div class="container">
           <div class="features">
             <div class="feature card">
@@ -112,7 +164,7 @@
       </section>
 
       <!-- HOW IT WORKS -->
-      <section id="how" class="section">
+      <section id="how" class="section section--large">
         <div class="container">
           <h2 class="section__title">How it works</h2>
 
@@ -161,7 +213,7 @@
       </section>
 
       <!-- VERIFY -->
-      <section id="verify" class="section">
+      <section id="verify" class="section section--large">
         <div class="container">
           <h2 class="section__title">Verify the draw</h2>
 
@@ -179,7 +231,7 @@
       </section>
 
       <!-- STATUS -->
-      <section id="status" class="section">
+      <section id="status" class="section section--large">
         <div class="container">
           <h2 class="section__title">Live status</h2>
 
