@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>$COMMIT</title>
+  <title>COMMIT</title>
   <meta name="description" content="Provably fair holder lottery on Solana." />
   <link rel="stylesheet" href="./styles.css" />
 </head>
@@ -74,11 +74,7 @@
                   <div class="kv__label">Last check</div>
                   <div id="last-check" class="kv__value">—</div>
                 </div>
-                <div class="kv">
-                  <div class="kv__label">Last updated</div>
-                  <div id="round-updated" class="kv__value">—</div>
-                </div>
-
+                
                 <div class="divider"></div>
 
                 <div class="muted">
@@ -165,7 +161,7 @@
                 <div class="kv__label">Started</div>
                 <div id="round-started" class="kv__value">—</div>
               </div>
-              
+
               <div class="kv">
                 <div class="kv__label">Last updated</div>
                 <div id="round-updated" class="kv__value">—</div>
@@ -202,65 +198,6 @@
   </div>
 
   <script src="./app.js"></script>
-<script>
-const BACKEND_URL = "https://bbcr-lottery.onrender.com";
-
-function setRoundPill(status) {
-  const pill = document.getElementById("round-pill");
-
-  pill.classList.remove("pill--loading");
-  pill.classList.remove("pill--ok");
-
-  if (status === "open") {
-    pill.textContent = "Open";
-    pill.classList.add("pill--ok");
-  } else {
-    pill.textContent = status || "Unknown";
-    pill.classList.add("pill--loading");
-  }
-}
-
-function setRoundUpdatedNow() {
-  const el = document.getElementById("round-updated");
-  if (el) el.textContent = new Date().toLocaleString();
-}
-
-async function loadCurrentRound() {
-  try {
-    const res = await fetch(`${BACKEND_URL}/rounds/current`, { cache: "no-store" });
-    const data = await res.json();
-
-    if (!data.round) {
-      document.getElementById("round-pill").textContent = "No round";
-      document.getElementById("round-id").textContent = "—";
-      document.getElementById("round-status-text").textContent = "—";
-      document.getElementById("round-started").textContent = "—";
-      document.getElementById("round-message").textContent = "No active round found.";
-      setRoundUpdatedNow();
-      return;
-    }
-
-    const r = data.round;
-
-    document.getElementById("round-id").textContent = r.id;
-    document.getElementById("round-status-text").textContent = r.status;
-    document.getElementById("round-started").textContent =
-      new Date(r.created_at).toLocaleString();
-
-    document.getElementById("round-message").textContent =
-      "Round loaded from backend successfully.";
-
-    setRoundPill(r.status);
-  } catch (err) {
-    document.getElementById("round-message").textContent =
-      "Failed to load round data. Check backend URL or CORS.";
-    
-    setRoundUpdatedNow();
-  }
-}
-
-loadCurrentRound();
-setInterval(loadCurrentRound, 15000);
 
 </script>
 
