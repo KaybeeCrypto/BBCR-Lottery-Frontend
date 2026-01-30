@@ -74,6 +74,10 @@
                   <div class="kv__label">Last check</div>
                   <div id="last-check" class="kv__value">—</div>
                 </div>
+                <div class="kv">
+                  <div class="kv__label">Last updated</div>
+                  <div id="round-updated" class="kv__value">—</div>
+                </div>
 
                 <div class="divider"></div>
 
@@ -88,15 +92,40 @@
 
       <!-- Placeholder sections -->
       <section id="how" class="section">
-        <div class="container">
-          <h2 class="section__title">How it works</h2>
-          <p class="section__text">
-            COMMIT uses a block-based commit–reveal mechanism to ensure fair, transparent, and reproducible draws for token holders.
+        <div class="steps">
+          <div class="step" id="step-1">
+            <div class="step__num">1</div>
+            <div class="step__body">
+              <div class="step__title">Snapshot</div>
+              <div class="step__text">We collect eligible holder wallets at a specific time.</div>
+            </div>
+          </div>
 
-              No wallets are excluded after the commit.
-              No results can be changed after publication..
-          </p>
+          <div class="step" id="step-2">
+            <div class="step__num">2</div>
+            <div class="step__body">
+              <div class="step__title">Commit</div>
+              <div class="step__text">We hash the snapshot and publish the hash (commit).</div>
+            </div>
+          </div>
+
+          <div class="step" id="step-3">
+            <div class="step__num">3</div>
+            <div class="step__body">
+              <div class="step__title">Future Block</div>
+              <div class="step__text">We wait for a future Solana block hash that nobody can predict.</div>
+            </div>
+          </div>
+
+          <div class="step" id="step-4">
+            <div class="step__num">4</div>
+            <div class="step__body">
+              <div class="step__title">Reveal Winner</div>
+              <div class="step__text">We combine snapshot hash + block hash to pick the winner deterministically.</div>
+            </div>
+          </div>
         </div>
+
       </section>
 
       <section id="verify" class="section">
@@ -136,6 +165,11 @@
                 <div class="kv__label">Started</div>
                 <div id="round-started" class="kv__value">—</div>
               </div>
+              
+              <div class="kv">
+                <div class="kv__label">Last updated</div>
+                <div id="round-updated" class="kv__value">—</div>
+              </div>
 
               <div class="divider"></div>
 
@@ -168,35 +202,85 @@
   </div>
 
   <script src="./app.js"></script>
-  <script>
+<script>
 const BACKEND_URL = "https://bbcr-lottery.onrender.com";
+
+function setRoundPill(status) {
+  const pill = document.getElementById("round-pill");
+
+  pill.classList.remove("pill--loading");
+  pill.classList.remove("pill--ok");
+
+  if (status === "open") {
+    pill.textContent = "Open";
+    pill.classList.add("pill--ok");
+  } else {
+    pill.textContent = status || "Unknown";
+    pill.classList.add("pill--loading");
+  }
+}
+
+function setRoundUpdatedNow() {
+  const el = document.getElementById("round-updated");
+  if (el) el.textContent = new Date().toLocaleString();
+}
 
 async function loadCurrentRound() {
   try {
-    const res = await fetch(`${BACKEND_URL}/rounds/current`);
+    const res = await fetch(`${BACKEND_URL}/rounds/current`, { cache: "no-store" });
     const data = await res.json();
 
-    const el = document.getElementById("round-status");
-
     if (!data.round) {
-      el.textContent = "No active round";
+      document.getElementById("round-pill").textContent = "No round";
+      document.getElementById("round-id").textContent = "—";
+      document.getElementById("round-status-text").textContent = "—";
+      document.getElementById("round-started").textContent = "—";
+      document.getElementById("round-message").textContent = "No active round found.";
+      setRoundUpdatedNow();
       return;
     }
 
-    el.innerHTML = `
-      <strong>Current Round</strong><br>
-      ID: ${data.round.id}<br>
-      Status: ${data.round.status}<br>
-      Started: ${new Date(data.round.created_at).toLocaleString()}
-    `;
+    const r = data.round;
+
+    document.getElementById("round-id").textContent = r.id;
+    document.getElementById("round-status-text").textContent = r.status;
+    document.getElementById("round-started").textContent =
+      new Date(r.created_at).toLocaleString();
+
+    document.getElementById("round-message").textContent =
+      "Round loaded from backend successfully.";
+
+    setRoundPill(r.status);
   } catch (err) {
-    document.getElementById("round-status").textContent =
-      "Failed to load round data";
+    document.getElementById("round-message").textContent =
+      "Failed to load round data. Check backend URL or CORS.";
+    
+    setRoundUpdatedNow();
   }
 }
 
 loadCurrentRound();
+setInterval(loadCurrentRound, 15000);
+
 </script>
+
+<script>
+const steps = ["step-1","step-2","step-3","step-4"];
+let stepIndex = 0;
+
+function advanceSteps() {
+  steps.forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.classList.toggle("active", i === stepIndex);
+  });
+
+  stepIndex = (stepIndex + 1) % steps.length;
+}
+advanceSteps();
+setInterval(advanceSteps, 1800);
+</script>
+
 
 </body>
 </html>

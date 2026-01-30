@@ -200,6 +200,46 @@ a{ color:inherit; text-decoration:none; }
   background: var(--line);
   margin:12px 0;
 }
+.steps {
+  margin-top: 1.5rem;
+  display: grid;
+  gap: 12px;
+  max-width: 720px;
+}
+
+.step {
+  display: flex;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  opacity: 0.6;
+  transform: translateY(4px);
+  transition: opacity 300ms ease, transform 300ms ease;
+}
+
+.step.active {
+  opacity: 1;
+  transform: translateY(0);
+  border-color: rgba(20, 241, 149, 0.35);
+}
+
+.step__num {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  background: rgba(20, 241, 149, 0.15);
+  color: #14f195;
+}
+
+.step__title {
+  font-weight: 700;
+  margin-bottom: 4px;
+}
 
 .muted{ color:var(--muted); font-size:13px; line-height:1.4; }
 
