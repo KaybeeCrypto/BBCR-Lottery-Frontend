@@ -63,12 +63,16 @@
 
               <div class="card__body">
                 <div class="kv">
-                  <div class="kv__label">Backend</div>
-                  <div id="backend-status" class="kv__value">—</div>
-                </div>
-                <div class="kv">
-                  <div class="kv__label">API base</div>
-                  <div id="api-base" class="kv__value kv__mono">—</div>
+                  <div class="kv kv--backend">
+                    <div class="kv__label">Backend</div>
+                    <div id="backend-status" class="kv__value">—</div>
+                  </div>
+
+                  <div class="kv kv--apibase">
+                    <div class="kv__label">API base</div>
+                    <div id="api-base" class="kv__value kv__mono">—</div>
+                  </div>
+
                 </div>
                 <div class="kv">
                   <div class="kv__label">Last check</div>
@@ -88,14 +92,15 @@
 
       <!-- Placeholder sections -->
       <section id="how" class="section">
-        <div class="steps">
-          <div class="step" id="step-1">
-            <div class="step__num">1</div>
-            <div class="step__body">
-              <div class="step__title">Snapshot</div>
-              <div class="step__text">We collect eligible holder wallets at a specific time.</div>
+        <div class="container"></div>
+          <div class="steps">
+            <div class="step" id="step-1">
+              <div class="step__num">1</div>
+              <div class="step__body">
+                <div class="step__title">Snapshot</div>
+                <div class="step__text">We collect eligible holder wallets at a specific time.</div>
+              </div>
             </div>
-          </div>
 
           <div class="step" id="step-2">
             <div class="step__num">2</div>
@@ -140,7 +145,7 @@
             This section shows the latest round pulled from the backend.
           </p>
 
-          <div class="card" style="max-width: 520px;">
+          <div class="card status-card">
             <div class="card__head">
               <div class="card__title">Current round</div>
               <div id="round-pill" class="pill pill--loading">Loading…</div>
@@ -183,7 +188,7 @@
     <footer class="footer">
       <div class="container footer__inner">
         <div class="footer__left">
-          <div class="footer__brand">BBCR Lottery</div>
+          <div class="footer__brand">COMMIT</div>
           <div class="footer__small">Built for transparency. Powered by Solana.</div>
         </div>
 
@@ -199,7 +204,6 @@
 
   <script src="./app.js"></script>
 
-</script>
 
 <script>
 const steps = ["step-1","step-2","step-3","step-4"];
