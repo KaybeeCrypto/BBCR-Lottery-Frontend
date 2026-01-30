@@ -252,10 +252,24 @@ a{ color:inherit; text-decoration:none; }
 /* ================= Steps ================= */
 
 .steps{
-  margin:1.5rem auto 0;
-  display:grid;
-  gap:12px;
-  max-width:880px;
+  margin: 2rem auto 0;
+  display: grid;
+  gap: 12px;
+  max-width: 880px;
+  justify-items: center;
+}
+.step{
+  width: 100%;
+}
+
+#status .section__title,
+#status .section__text{
+  text-align: center;
+}
+
+#verify .section__title,
+#verify .section__text{
+  text-align: center;
 }
 
 .step{
@@ -368,3 +382,11 @@ a{ color:inherit; text-decoration:none; }
 }
 
 .footer__link:hover{ color:var(--text); }
+
+/* Center section headings and intro text */
+.section .section__title,
+.section .section__text{
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
