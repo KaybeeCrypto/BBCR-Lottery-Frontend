@@ -28,26 +28,27 @@
 
     <!-- Main -->
     <main class="main">
-      <!-- Hero -->
+
+      <!-- HERO -->
       <section class="hero">
         <div class="container hero__inner">
           <div class="hero__copy">
             <h1 class="hero__title">
-              COMMIT<br />
-              <span class="gradient-text">No wheel. No trust.</span>
+              A Provably Fair<br />
+              <span class="gradient-text">Holder Lottery on Solana</span>
             </h1>
 
             <p class="hero__subtitle">
-              Eligible wallets are snapshotted, hashed, and revealed using a future Solana block.
-              Anyone can verify the result.
+              Commit–reveal randomness. No wallets. No actions. No trust assumptions.
             </p>
 
             <div class="hero__cta">
-              <a class="btn btn--primary" href="#status">View live status</a>
-              <a class="btn btn--ghost" href="#how">Learn the mechanism</a>
+              <a class="btn btn--primary" href="#how">How it works</a>
+              <a class="btn btn--ghost" href="#verify">Verify on-chain</a>
             </div>
           </div>
 
+          <!-- System Status Card (kept, but no longer dominant) -->
           <div class="hero__card">
             <div class="card">
               <div class="card__head">
@@ -56,27 +57,25 @@
               </div>
 
               <div class="card__body">
-                <div class="kv">
-                  <div class="kv kv--backend">
-                    <div class="kv__label">Backend</div>
-                    <div id="backend-status" class="kv__value">—</div>
-                  </div>
-
-                  <div class="kv kv--apibase">
-                    <div class="kv__label">API base</div>
-                    <div id="api-base" class="kv__value kv__mono">—</div>
-                  </div>
-
+                <div class="kv kv--backend">
+                  <div class="kv__label">Backend</div>
+                  <div id="backend-status" class="kv__value">—</div>
                 </div>
+
+                <div class="kv kv--apibase">
+                  <div class="kv__label">API base</div>
+                  <div id="api-base" class="kv__value kv__mono">—</div>
+                </div>
+
+                <div class="divider"></div>
+
                 <div class="kv">
                   <div class="kv__label">Last check</div>
                   <div id="last-check" class="kv__value">—</div>
                 </div>
-                
-                <div class="divider"></div>
 
                 <div class="muted">
-                  This page only reads public endpoints. Winner selection happens server-side and is verifiable.
+                  Public read-only endpoints. Winner selection is deterministic and verifiable.
                 </div>
               </div>
             </div>
@@ -84,60 +83,105 @@
         </div>
       </section>
 
-      <!-- Placeholder sections -->
+      <!-- WHY COMMIT -->
+      <section class="section">
+        <div class="container">
+          <div class="features">
+            <div class="feature card">
+              <div class="card__body">
+                <strong>No interaction required</strong>
+                <div class="muted">Holding the token is enough.</div>
+              </div>
+            </div>
+
+            <div class="feature card">
+              <div class="card__body">
+                <strong>No admin control</strong>
+                <div class="muted">Outcomes are locked before the reveal.</div>
+              </div>
+            </div>
+
+            <div class="feature card">
+              <div class="card__body">
+                <strong>Fully verifiable</strong>
+                <div class="muted">All randomness inputs are on-chain.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- HOW IT WORKS -->
       <section id="how" class="section">
-        <div class="container"></div>
+        <div class="container">
+          <h2 class="section__title">How it works</h2>
+
           <div class="steps">
             <div class="step" id="step-1">
               <div class="step__num">1</div>
               <div class="step__body">
                 <div class="step__title">Snapshot</div>
-                <div class="step__text">We collect eligible holder wallets at a specific time.</div>
+                <div class="step__text">
+                  Eligible holder balances are captured at a predefined slot.
+                </div>
               </div>
             </div>
 
-          <div class="step" id="step-2">
-            <div class="step__num">2</div>
-            <div class="step__body">
-              <div class="step__title">Commit</div>
-              <div class="step__text">We hash the snapshot and publish the hash (commit).</div>
+            <div class="step" id="step-2">
+              <div class="step__num">2</div>
+              <div class="step__body">
+                <div class="step__title">Commit</div>
+                <div class="step__text">
+                  The snapshot is hashed and published before randomness exists.
+                </div>
+              </div>
             </div>
-          </div>
 
-          <div class="step" id="step-3">
-            <div class="step__num">3</div>
-            <div class="step__body">
-              <div class="step__title">Future Block</div>
-              <div class="step__text">We wait for a future Solana block hash that nobody can predict.</div>
+            <div class="step" id="step-3">
+              <div class="step__num">3</div>
+              <div class="step__body">
+                <div class="step__title">Future block</div>
+                <div class="step__text">
+                  A future Solana block hash introduces unpredictability.
+                </div>
+              </div>
             </div>
-          </div>
 
-          <div class="step" id="step-4">
-            <div class="step__num">4</div>
-            <div class="step__body">
-              <div class="step__title">Reveal Winner</div>
-              <div class="step__text">We combine snapshot hash + block hash to pick the winner deterministically.</div>
+            <div class="step" id="step-4">
+              <div class="step__num">4</div>
+              <div class="step__body">
+                <div class="step__title">Reveal winner</div>
+                <div class="step__text">
+                  Snapshot hash and block hash deterministically select the winner.
+                </div>
+              </div>
             </div>
           </div>
         </div>
-
       </section>
 
+      <!-- VERIFY -->
       <section id="verify" class="section">
         <div class="container">
-          <h2 class="section__title">Verify</h2>
+          <h2 class="section__title">Verify the draw</h2>
+
           <p class="section__text">
-            Later this will show the exact inputs: snapshot hash, target slot, block hash, and final draw hash.
+            Each round exposes all inputs required to independently recompute the outcome.
           </p>
+
+          <ul class="verify-list">
+            <li>Snapshot hash</li>
+            <li>Target block slot</li>
+            <li>Revealed block hash</li>
+            <li>Final draw hash</li>
+          </ul>
         </div>
       </section>
 
+      <!-- STATUS -->
       <section id="status" class="section">
         <div class="container">
           <h2 class="section__title">Live status</h2>
-          <p class="section__text">
-            This section shows the latest round pulled from the backend.
-          </p>
 
           <div class="card status-card">
             <div class="card__head">
@@ -183,7 +227,9 @@
       <div class="container footer__inner">
         <div class="footer__left">
           <div class="footer__brand">COMMIT</div>
-          <div class="footer__small">Built for transparency. Powered by Solana.</div>
+          <div class="footer__small">
+            Built as an on-chain primitive. Powered by Solana.
+          </div>
         </div>
 
         <div class="footer__right">
@@ -198,24 +244,22 @@
 
   <script src="./app.js"></script>
 
+  <script>
+    const steps = ["step-1","step-2","step-3","step-4"];
+    let stepIndex = 0;
 
-<script>
-const steps = ["step-1","step-2","step-3","step-4"];
-let stepIndex = 0;
+    function advanceSteps() {
+      steps.forEach((id, i) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.classList.toggle("active", i === stepIndex);
+      });
+      stepIndex = (stepIndex + 1) % steps.length;
+    }
 
-function advanceSteps() {
-  steps.forEach((id, i) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.classList.toggle("active", i === stepIndex);
-  });
-
-  stepIndex = (stepIndex + 1) % steps.length;
-}
-advanceSteps();
-setInterval(advanceSteps, 1800);
-</script>
-
+    advanceSteps();
+    setInterval(advanceSteps, 1800);
+  </script>
 
 </body>
 </html>
