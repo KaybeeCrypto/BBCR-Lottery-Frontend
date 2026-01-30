@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>BBCR Lottery</title>
+  <meta name="description" content="Provably fair holder lottery on Solana." />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <div class="container header__inner">
+        <a class="brand" href="#">
+          <span class="brand__dot"></span>
+          <span class="brand__text">BBCR Lottery</span>
+        </a>
+
+        <nav class="nav">
+          <a class="nav__link" href="#how">How it works</a>
+          <a class="nav__link" href="#verify">Verify</a>
+          <a class="nav__link" href="#status">Status</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Main -->
+    <main class="main">
+      <!-- Hero -->
+      <section class="hero">
+        <div class="container hero__inner">
+          <div class="hero__copy">
+            <h1 class="hero__title">
+              Provably fair holder lottery.<br />
+              <span class="gradient-text">No wheel. No trust.</span>
+            </h1>
+
+            <p class="hero__subtitle">
+              Eligible wallets are snapshotted, hashed, and revealed using a future Solana block.
+              Anyone can verify the result.
+            </p>
+
+            <div class="hero__cta">
+              <a class="btn btn--primary" href="#status">View live status</a>
+              <a class="btn btn--ghost" href="#how">Learn the mechanism</a>
+            </div>
+          </div>
+
+          <div class="hero__card">
+            <div class="card">
+              <div class="card__head">
+                <div class="card__title">System status</div>
+                <div id="status-pill" class="pill pill--loading">Checking…</div>
+              </div>
+
+              <div class="card__body">
+                <div class="kv">
+                  <div class="kv__label">Backend</div>
+                  <div id="backend-status" class="kv__value">—</div>
+                </div>
+                <div class="kv">
+                  <div class="kv__label">API base</div>
+                  <div id="api-base" class="kv__value kv__mono">—</div>
+                </div>
+                <div class="kv">
+                  <div class="kv__label">Last check</div>
+                  <div id="last-check" class="kv__value">—</div>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="muted">
+                  This page only reads public endpoints. Winner selection happens server-side and is verifiable.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Placeholder sections -->
+      <section id="how" class="section">
+        <div class="container">
+          <h2 class="section__title">How it works</h2>
+          <p class="section__text">
+            We’ll add the full explanation after the core pages are in place.
+          </p>
+        </div>
+      </section>
+
+      <section id="verify" class="section">
+        <div class="container">
+          <h2 class="section__title">Verify</h2>
+          <p class="section__text">
+            Later this will show the exact inputs: snapshot hash, target slot, block hash, and final draw hash.
+          </p>
+        </div>
+      </section>
+
+      <section id="status" class="section">
+        <div class="container">
+          <h2 class="section__title">Live status</h2>
+          <p class="section__text">
+            This will become the “current round” dashboard once we add the backend endpoints.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container footer__inner">
+        <div class="footer__left">
+          <div class="footer__brand">BBCR Lottery</div>
+          <div class="footer__small">Built for transparency. Powered by Solana.</div>
+        </div>
+
+        <div class="footer__right">
+          <a class="footer__link" href="#how">How it works</a>
+          <a class="footer__link" href="#verify">Verify</a>
+          <a class="footer__link" href="#status">Status</a>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
