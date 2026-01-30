@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>BBCR Lottery</title>
+  <title>$COMMIT</title>
   <meta name="description" content="Provably fair holder lottery on Solana." />
   <link rel="stylesheet" href="./styles.css" />
 </head>
@@ -15,7 +15,7 @@
       <div class="container header__inner">
         <a class="brand" href="#">
           <span class="brand__dot"></span>
-          <span class="brand__text">BBCR Lottery</span>
+          <span class="brand__text">COMMIT</span>
         </a>
 
         <nav class="nav">
@@ -33,7 +33,13 @@
         <div class="container hero__inner">
           <div class="hero__copy">
             <h1 class="hero__title">
-              Provably fair holder lottery.<br />
+              COMMIT
+                A verifiable on-chain draw. No rerolls. No insiders.
+
+                Every outcome is committed to the blockchain before it’s revealed.
+                The result is decided by block data — not by us.
+
+                If it’s on-chain, it’s already committed.<br />
               <span class="gradient-text">No wheel. No trust.</span>
             </h1>
 
@@ -85,7 +91,10 @@
         <div class="container">
           <h2 class="section__title">How it works</h2>
           <p class="section__text">
-            We’ll add the full explanation after the core pages are in place.
+            COMMIT uses a block-based commit–reveal mechanism to ensure fair, transparent, and reproducible draws for token holders.
+
+              No wallets are excluded after the commit.
+              No results can be changed after publication..
           </p>
         </div>
       </section>
@@ -102,11 +111,13 @@
       <section id="status" class="section">
         <div class="container">
           <h2 class="section__title">Live status</h2>
-          <p class="section__text">
-            This will become the “current round” dashboard once we add the backend endpoints.
-          </p>
+
+          <div id="round-status" class="status-box">
+            Loading current round…
+          </div>
         </div>
       </section>
+
     </main>
 
     <!-- Footer -->
@@ -128,5 +139,35 @@
   </div>
 
   <script src="./app.js"></script>
+  <script>
+const BACKEND_URL = "https://bbcr-lottery.onrender.com";
+
+async function loadCurrentRound() {
+  try {
+    const res = await fetch(`${BACKEND_URL}/rounds/current`);
+    const data = await res.json();
+
+    const el = document.getElementById("round-status");
+
+    if (!data.round) {
+      el.textContent = "No active round";
+      return;
+    }
+
+    el.innerHTML = `
+      <strong>Current Round</strong><br>
+      ID: ${data.round.id}<br>
+      Status: ${data.round.status}<br>
+      Started: ${new Date(data.round.created_at).toLocaleString()}
+    `;
+  } catch (err) {
+    document.getElementById("round-status").textContent =
+      "Failed to load round data";
+  }
+}
+
+loadCurrentRound();
+</script>
+
 </body>
 </html>
