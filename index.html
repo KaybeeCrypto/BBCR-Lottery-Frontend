@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>COMMIT</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Pixel / bitmap font -->
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #000000;
+      --fg: #ffffff;
+      --line: rgba(255,255,255,0.9);
+      --muted: rgba(255,255,255,0.7);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: "Press Start 2P", monospace;
+      line-height: 1.8;
+    }
+
+    a { color: var(--fg); text-decoration: none; }
+
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 28px;
+    }
+
+    /* ===== HEADER ===== */
+
+    .header {
+      border: 2px solid var(--line);
+      padding: 48px 32px 28px;
+      margin-bottom: 40px;
+    }
+
+    .brand {
+      text-align: center;
+      font-size: clamp(36px, 8vw, 72px);
+      letter-spacing: 0.25em;
+      margin-bottom: 28px;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      border-top: 2px solid var(--line);
+      padding-top: 20px;
+      font-size: 12px;
+    }
+
+    .nav a:hover { text-decoration: underline; }
+
+    /* ===== SECTION WRAPPER ===== */
+
+    .section-wrap { margin-bottom: 40px; }
+
+    .section-title {
+      text-align: center;
+      font-size: 18px;
+      margin-bottom: 12px;
+    }
+
+    .section {
+      border: 2px solid var(--line);
+      padding: 32px;
+    }
+
+    /* ===== TERMINAL ===== */
+
+    .round { padding: 40px 32px; }
+
+    .terminal {
+      border: 2px solid var(--line);
+      width: 100%;
+      max-width: 720px;
+      aspect-ratio: 16 / 9;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      background: #000;
+    }
+
+    .terminal-header {
+      border-bottom: 2px solid var(--line);
+      padding: 14px 16px;
+      font-size: 12px;
+      text-align: center;
+      background: #000;
+      flex-shrink: 0;
+    }
+
+    .terminal-body {
+      flex: 1;
+      padding: 20px;
+      font-size: 11px;
+      line-height: 1.6;
+      white-space: pre;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ===== TOKENOMICS ===== */
+
+    .tokenomics-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .tokenomics-list li { padding: 10px 0; }
+
+    /* ===== HOW IT WORKS ===== */
+
+    .how-it-works { text-align: center; }
+
+    .how-it-works .step { margin-bottom: 36px; }
+
+    .how-it-works .step-title {
+      font-size: 16px;
+      margin-bottom: 12px;
+    }
+
+    .how-it-works .step-desc {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* ===== WALLET CARD ===== */
+
+    .eligibility-card {
+      max-width: 480px;
+      margin: 32px auto 0;
+      border: 2px solid var(--line);
+      padding: 28px;
+      text-align: center;
+    }
+
+    .eligibility-card label {
+      display: block;
+      margin-bottom: 16px;
+      font-size: 12px;
+    }
+
+    .eligibility-card input {
+      width: 100%;
+      background: transparent;
+      border: 2px solid var(--line);
+      color: var(--fg);
+      padding: 14px;
+      font-family: inherit;
+      margin-bottom: 20px;
+      font-size: 12px;
+    }
+
+    .eligibility-card button {
+      width: 100%;
+      background: transparent;
+      border: 2px solid var(--line);
+      color: var(--fg);
+      padding: 14px;
+      font-family: inherit;
+      cursor: not-allowed;
+      font-size: 12px;
+    }
+
+    /* ===== FOOTER ===== */
+
+    footer {
+      border-top: 2px solid var(--line);
+      padding-top: 20px;
+      text-align: center;
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    /* ===== RESPONSIVE ===== */
+
+    @media (max-width: 600px) {
+      .nav { justify-content: center; }
+      .terminal-body { font-size: 9px; padding: 14px; }
+    }
+  </style>
+</head>
+
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="brand">COMMIT</div>
+    <nav class="nav">
+      <a href="#round">LOTTERY</a>
+      <a href="#tokenomics">TOKENOMICS</a>
+      <a href="#how">HOW IT WORKS</a>
+    </nav>
+  </header>
+
+  <!-- ROUND -->
+  <div class="section-wrap" id="round">
+    <div class="section-title">ROUND</div>
+
+    <section class="section round">
+      <div class="terminal">
+        <div class="terminal-header">COMMIT://ROUND_CONSOLE</div>
+        <pre id="roundTerminal" class="terminal-body"></pre>
+      </div>
+
+      <div class="eligibility-card">
+        <label for="wallet">WALLET ADDRESS</label>
+        <input id="wallet" type="text" placeholder="ENTER WALLET ADDRESS…" />
+        <button disabled>CHECK ELIGIBILITY (SOON)</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- TOKENOMICS -->
+  <div class="section-wrap" id="tokenomics">
+    <div class="section-title">TOKENOMICS</div>
+
+    <section class="section">
+      <ul class="tokenomics-list">
+        <li>TOTAL SUPPLY: 1,000,000,000</li>
+        <li>LAUNCH: PUMP.FUN</li>
+        <li>TAXES: 0%</li>
+        <li>MINT AUTHORITY: REVOKED</li>
+        <li>LIQUIDITY: BURNED</li>
+        <li>FAIR LAUNCH — NO TEAM, NO PRESALE</li>
+      </ul>
+    </section>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <div class="section-wrap" id="how">
+    <div class="section-title">HOW IT WORKS</div>
+
+    <section class="section how-it-works">
+      <div class="step">
+        <div class="step-title">SNAPSHOT</div>
+        <div class="step-desc">HOLDERS ARE FROZEN AT A BLOCK HEIGHT.</div>
+      </div>
+      <div class="step">
+        <div class="step-title">COMMIT</div>
+        <div class="step-desc">ENTROPY IS LOCKED. NO ONE CAN SEE IT.</div>
+      </div>
+      <div class="step">
+        <div class="step-title">REVEAL</div>
+        <div class="step-desc">SECRETS ARE REVEALED. MATH DOES THE REST.</div>
+      </div>
+      <div class="step">
+        <div class="step-title">FINALIZE</div>
+        <div class="step-desc">WINNER IS DERIVED. PROOF IS PUBLIC.</div>
+      </div>
+    </section>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    COMMIT://LOTTERY_PROTOCOL v1.0<br />
+    POWERED BY SOLANA • © COMMIT LABS
+  </footer>
+
+</div>
+
+<!-- IMPORTANT: script loads AFTER DOM -->
+<script src="./script.js"></script>
+</body>
+</html>
