@@ -157,6 +157,8 @@
     }, 650);
   }
 
+
+  
   async function fetchState() {
     const res = await fetch(`${API_BASE}/api/public/state`, {
       cache: "no-store"
