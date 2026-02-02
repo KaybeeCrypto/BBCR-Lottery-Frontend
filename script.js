@@ -1,10 +1,9 @@
 (() => {
-  const API_BASE = "https://bbcr-lottery.onrender.com"; // <- CHANGE if different
+  const API_BASE = "https://bbcr-lottery.onrender.com";
   const terminal = document.getElementById("roundTerminal");
 
   if (!terminal) return;
 
-  // --- IDLE SCREEN (your art) ---
   const idleFrames = [
 `COMMIT://LOTTERY_PROTOCOL v1.0...   IDLE
 
@@ -52,7 +51,7 @@
 ⠀⠸⡇⠁⠀⠀⢏⠉⠀⠀⠙⠛⠛⠛⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⢈⡏⠀⠀⠀
 ⠀⠀⠯⣀⣈⣀⣈⣐⣲⣄⣄⣤⣴⣆⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣈⣛⡧⠀⠀⠀`
   ];(() => {
-  const API_BASE = "https://bbcr-lottery.onrender.com"; // change if needed
+  const API_BASE = "https://bbcr-lottery.onrender.com"; 
   const terminal = document.getElementById("roundTerminal");
   if (!terminal) return;
 
@@ -60,9 +59,7 @@
   let frame = 0;
   let lastState = null;
 
-  /* ===============================
-     PHASE ANIMATION FRAMES
-     =============================== */
+ 
 
   const FRAMES = {
 
@@ -139,9 +136,7 @@
     ]
   };
 
-  /* ===============================
-     ENGINE
-     =============================== */
+  
 
   function stop() {
     if (timer) clearInterval(timer);
