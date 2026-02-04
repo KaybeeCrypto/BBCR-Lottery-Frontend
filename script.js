@@ -16,7 +16,7 @@
   }
 
   function withCursor(text) {
-    return text + (cursorOn ? "_" : " ");
+    return text + (cursorOn ? "|" : " ");
   }
 
   setInterval(() => {
