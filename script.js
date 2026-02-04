@@ -10,15 +10,34 @@
   let lastState = null;
   let cursorOn = true;
 
-  function withCursor(text) {
-    return text + (cursorOn ? "|" : " ");
+  function withCursor(html) {
+    return (
+      html +
+      `<span style="color: var(--term-muted, rgba(255,255,255,0.6))">${
+        cursorOn ? "|" : " "
+      }</span>`
+    );
   }
 
-  // Blink cursor
-  setInterval(() => { cursorOn = !cursorOn; }, 500);
+  function teal(text) {
+    return `<span style="color: var(--sol-teal, #00ffa3)">${text}</span>`;
+  }
 
-  // Your bottom-right ASCII art panel (exactly as you sent)
-  const IDLE_ART =
+  function purple(text) {
+    return `<span style="color: var(--sol-purple, #dc1fff)">${text}</span>`;
+  }
+
+  function muted(text) {
+    return `<span style="color: var(--term-muted, rgba(255,255,255,0.6))">${text}</span>`;
+  }
+
+  // Blink cursor (single stable timer)
+  setInterval(() => {
+    cursorOn = !cursorOn;
+  }, 500);
+
+  // ASCII ART FRAMES
+  const IDLE_ART_1 =
 `⢻⣿⡗⢶⣤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀     ⣀⣀
 ⠀⢻⣇⠀⠈⠙⠳⣦⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⠶⠛⠋⢻⣹⣿⡿
 ⠀⠀⠹⣆⠀⠀⠀⠀⠙⢷⣄⣀⣀⣀⣤⣤⣤⣄⣀⣴⠞⠋⠉⠀⠀⠀⢀⣿⡟⠁
@@ -32,37 +51,57 @@
 ⠀⠀⠀⠀⠀⠈⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣧⠀⠀⠀
 ⠀⠀⠀⠀⠀⠈⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠁⠀`;
 
-  // Frames define what appears bottom-left, and what appears bottom-right
+  const IDLE_ART_2 =
+`⢻⣿⡗⢶⣤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀     ⣀⣀
+⠀⢻⣇⠀⠈⠙⠳⣦⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⠶⠛⠋⢻⣹⣿⡿
+⠀⠀⠹⣆⠀⠀⠀⠀⠙⢷⣄⣀⣀⣀⣤⣤⣤⣄⣀⣴⠞⠋⠉⠀⠀⠀⢀⣿⡟⠁
+⠀⠀⠀⠙⢷⡀⠀⠀⠀⠀⠉⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⡾⠋⠀⠀
+⠀⠀⠀⠀⠈⠻⡶⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣠⡾⠋⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⣼⠃⠀⢠⠒⣆⠀⠀⠀⠀⠀⠀⢠⢲⣄⠀⠀⠀⢻⣆⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⢰⡏⠀⠀⠈⠛⠋⠀⢀⣀⡀⠀⠀⠘⠛⠃⠀⠀⠀⠈⣿⡀⠀⠀⠀⠀
+⠀⠀⠀⠀⣾⡟⠛⢳⠀⠀⠀⠀⣀⣉⣀⣀⠀⠀⣰⠛⠙⣶⠀⢹⣇⠀⠀⠀⠀
+⠀⠀⠀⠀⢿⡗⠛⠋⠀⠀⠀⠀⣿⠋⠀⡇⠀⠀⠘⠲⠗⠋⠀⠈⣿⠀⠀⠀⠀
+⠀⠀⠀⠀⠘⢷⡀⠀⠀⠀⠀⠀⠈⠓⠒⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⡇⠀⠀⠀
+⠀⠀⠀⠀⠀⠈⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣧⠀⠀⠀
+⠀⠀⠀⠀⠀⠈⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠁⠀⠀`;
+
+  // STATE FRAMES
   const FRAMES = {
     IDLE: [
       () => ({
-        main: withCursor("COMMIT://LOTTERY_PROTOCOL v1.0...  IDLE STATE... "),
-        art: IDLE_ART
+        main: withCursor(
+          muted("COMMIT://LOTTERY_PROTOCOL v1.0...") +
+          teal("  IDLE STATE... ")
+        ),
+        art: IDLE_ART_1
       }),
       () => ({
-        main: withCursor("COMMIT://LOTTERY_PROTOCOL v1.0...  IDLE STATE... "),
-        art: IDLE_ART
+        main: withCursor(
+          muted("COMMIT://LOTTERY_PROTOCOL v1.0...") +
+          teal("  IDLE STATE... ")
+        ),
+        art: IDLE_ART_2
       })
     ],
 
     SNAPSHOT_TAKEN: [
       {
         main:
-`COMMIT://LOTTERY_PROTOCOL v1.0...  SNAPSHOT
-
-HOLDERS FROZEN.
-AWAITING COMMIT START.`,
-        art: "" // clear bottom-right panel in non-idle
+          muted("COMMIT://LOTTERY_PROTOCOL v1.0... ") +
+          purple("SNAPSHOT\n\n") +
+          "HOLDERS FROZEN.\n" +
+          muted("AWAITING COMMIT START."),
+        art: ""
       }
     ],
 
     COMMIT: [
       {
         main:
-`COMMIT://LOTTERY_PROTOCOL v1.0...  COMMIT
-
-COMMIT WINDOW OPEN.
-LOCKING HASHES...`,
+          muted("COMMIT://LOTTERY_PROTOCOL v1.0... ") +
+          teal("COMMIT\n\n") +
+          "COMMIT WINDOW OPEN.\n" +
+          teal("LOCKING HASHES..."),
         art: ""
       }
     ],
@@ -70,10 +109,10 @@ LOCKING HASHES...`,
     REVEAL: [
       {
         main:
-`COMMIT://LOTTERY_PROTOCOL v1.0...  REVEAL
-
-VERIFYING SECRETS...
-CALCULATING ENTROPY...`,
+          muted("COMMIT://LOTTERY_PROTOCOL v1.0... ") +
+          teal("REVEAL\n\n") +
+          "VERIFYING SECRETS...\n" +
+          muted("CALCULATING ENTROPY..."),
         art: ""
       }
     ],
@@ -81,10 +120,10 @@ CALCULATING ENTROPY...`,
     FINALIZED: [
       {
         main:
-`COMMIT://LOTTERY_PROTOCOL v1.0...  FINALIZED
-
-WINNER DERIVED.
-PROOF VERIFIED.`,
+          muted("COMMIT://LOTTERY_PROTOCOL v1.0... ") +
+          purple("FINALIZED\n\n") +
+          "WINNER DERIVED.\n" +
+          purple("PROOF VERIFIED."),
         art: ""
       }
     ]
@@ -97,17 +136,19 @@ PROOF VERIFIED.`,
   }
 
   function renderFrame(f) {
-    const out = (typeof f === "function") ? f() : f;
-    termMain.textContent = out.main || "";
-    termArt.textContent  = out.art  || "";
+    const out = typeof f === "function" ? f() : f;
+    termMain.innerHTML = out.main || "";
+    termArt.textContent = out.art || "";
   }
 
   function play(state) {
     stop();
-    const frames = FRAMES[state] || [{
-      main: "COMMIT://LOTTERY_PROTOCOL v1.0...  UNKNOWN STATE",
-      art: ""
-    }];
+    const frames = FRAMES[state] || [
+      {
+        main: muted("COMMIT://LOTTERY_PROTOCOL v1.0... UNKNOWN STATE"),
+        art: ""
+      }
+    ];
 
     renderFrame(frames[0]);
 
@@ -118,7 +159,9 @@ PROOF VERIFIED.`,
   }
 
   async function fetchState() {
-    const res = await fetch(`${API_BASE}/api/public/state`, { cache: "no-store" });
+    const res = await fetch(`${API_BASE}/api/public/state`, {
+      cache: "no-store"
+    });
     if (!res.ok) throw new Error("state fetch failed");
     return res.json();
   }
@@ -133,18 +176,16 @@ PROOF VERIFIED.`,
         play(state);
       }
 
-      // keep cursor blinking even without state changes on IDLE
       if (state === "IDLE") {
-        // force refresh the current frame to update cursor
         const frames = FRAMES.IDLE;
         renderFrame(frames[frame % frames.length]);
       }
     } catch {
       stop();
-      termMain.textContent =
-`COMMIT://LOTTERY_PROTOCOL v1.0...
-OFFLINE
-STATE ENDPOINT UNREACHABLE.`;
+      termMain.innerHTML =
+        muted("COMMIT://LOTTERY_PROTOCOL v1.0...\n") +
+        purple("OFFLINE\n") +
+        muted("STATE ENDPOINT UNREACHABLE.");
       termArt.textContent = "";
     }
   }
