@@ -225,12 +225,11 @@
     }
 
     @media (max-width: 600px) {
-       .ticket-video {
-        height: 2.5em;  
-        width: auto;
-        object-fit: contain;
-        pointer-events: none;
-      }
+  .ticket-video {
+    height: clamp(20px, 3em, 40px);
+  }
+}
+
 av { justify-content: center; }
       .terminal-body { font-size: 9px; padding: 14px; }
     }
