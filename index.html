@@ -72,18 +72,42 @@
     }
 
     .section {
-      border: 2px solid var(--line);
       padding: 32px;
     }
 
-
     .round { padding: 40px 32px; }
+
+    .server-status {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 9px;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background: #00ff5f;
+      border-radius: 50%;
+      box-shadow: 0 0 6px rgba(0,255,95,0.8);
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.6; }
+      50% { opacity: 1; }
+      100% { opacity: 0.6; }
+    }
+
+.status-dot {
+  animation: pulse 2s infinite;
+}
+
 
     .terminal {
       border: 2px solid var(--line);
       width: 100%;
-      max-width: 720px;
-      aspect-ratio: 16 / 9;
+      max-width: 900px;
+      aspect-ratio: 4 / 3;
       margin: 0 auto;
       display: flex;
       flex-direction: column;
@@ -92,12 +116,15 @@
 
     .terminal-header {
       border-bottom: 2px solid var(--line);
-      padding: 14px 16px;
-      font-size: 12px;
-      text-align: center;
+      padding: 6px 10px;     /* thinner */
+      font-size: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       background: #000;
       flex-shrink: 0;
     }
+
 
     .terminal-body {
       flex: 1;
@@ -209,7 +236,14 @@
 
     <section class="section round">
       <div class="terminal">
-        <div class="terminal-header">COMMIT://ROUND_CONSOLE</div>
+        <div class="terminal-header">
+          <span>COMMIT://ROUND_CONSOLE</span>
+          <span class="server-status">
+            <span class="status-dot"></span>
+            SERVER STATUS
+          </span>
+        </div>
+
         <pre id="roundTerminal" class="terminal-body"></pre>
       </div>
 
