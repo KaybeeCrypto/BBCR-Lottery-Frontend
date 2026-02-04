@@ -47,6 +47,20 @@
       letter-spacing: 0.25em;
       margin-bottom: 28px;
     }
+    
+    .brand-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+    }
+
+    .ticket-video {
+      height: 1em;           
+      width: auto;
+      object-fit: contain;
+      pointer-events: none; 
+    }
 
     .nav {
       display: flex;
@@ -211,6 +225,9 @@
     }
 
     @media (max-width: 600px) {
+       .ticket-video {
+        height: 0.8em;
+      }
       .nav { justify-content: center; }
       .terminal-body { font-size: 9px; padding: 14px; }
     }
@@ -222,7 +239,28 @@
 
   <!-- HEADER -->
   <header class="header">
-    <div class="brand">COMMIT</div>
+    <div class="brand-row">
+      <video
+        class="ticket-video"
+        src="./media_files/commit-ticket.webm"
+        autoplay
+        loop
+        muted
+        playsinline
+      ></video>
+
+      <div class="brand">COMMIT</div>
+
+      <video
+        class="ticket-video"
+        src="./media_files/commit-ticket.webm"
+        autoplay
+        loop
+        muted
+        playsinline
+      ></video>
+    </div>
+
     <nav class="nav">
       <a href="#round">LOTTERY TERMINAL</a>
       <a href="#tokenomics">TOKENOMICS</a>
