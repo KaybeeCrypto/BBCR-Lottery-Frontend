@@ -140,16 +140,38 @@
 
     .terminal-body {
       flex: 1;
-      padding: 16px;
-      font-size: 16px;
-      line-height: 1.6;
-      white-space: pre;
-      overflow: hidden;
-      display: flex;
-      align-items: flex-end;
-      justify-content: flex-start;
-      text-align: left;
+      padding: 20px;
+      background: #000;
+      position: relative;
+      overflow: hidden;       /* hard clip: nothing leaks past borders */
     }
+
+    /* Bottom-left main console line(s) */
+    .term-main {
+      position: absolute;
+      left: 20px;
+      bottom: 16px;
+      margin: 0;
+      white-space: pre;
+      font-size: 11px;
+      line-height: 1.6;
+      color: var(--fg);
+    }
+
+    /* Bottom-right art panel */
+    .term-art {
+      position: absolute;
+      right: 20px;
+      bottom: 16px;
+      margin: 0;
+      white-space: pre;
+      font-size: 10px;
+      line-height: 1.2;
+      color: var(--fg);
+      text-align: left;
+      pointer-events: none;
+    }
+
 
 
     .tokenomics-list {
@@ -226,6 +248,8 @@
     @media (max-width: 600px) {
   .ticket-video {
     height: clamp(28px, 10vw, 48px);
+  .term-main { font-size: 9px; }
+  .term-art  { font-size: 7px; line-height: 1.1; }
   }
 
   .nav { justify-content: center; }
@@ -283,8 +307,10 @@
           </span>
         </div>
 
-        <pre id="roundTerminal" class="terminal-body"></pre>
-      </div>
+        <div class="terminal-body" id="roundTerminal">
+          <pre id="termMain" class="term-main"></pre>
+          <pre id="termArt" class="term-art"></pre>
+        </div>
 
       <div class="eligibility-card">
         <label for="wallet">WALLET ADDRESS</label>

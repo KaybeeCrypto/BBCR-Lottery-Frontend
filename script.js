@@ -1,75 +1,92 @@
 (() => {
   const API_BASE = "https://bbcr-lottery.onrender.com";
-  const terminal = document.getElementById("roundTerminal");
-  if (!terminal) return;
+
+  const termMain = document.getElementById("termMain");
+  const termArt  = document.getElementById("termArt");
+  if (!termMain || !termArt) return;
 
   let timer = null;
   let frame = 0;
   let lastState = null;
   let cursorOn = true;
 
-  // How many empty lines to push content to bottom-left
-  const PAD_LINES = 18;
-
-  function padBottom(text) {
-    return "\n".repeat(PAD_LINES) + text;
-  }
-
   function withCursor(text) {
     return text + (cursorOn ? "|" : " ");
   }
 
-  setInterval(() => {
-    cursorOn = !cursorOn;
-  }, 500);
+  // Blink cursor
+  setInterval(() => { cursorOn = !cursorOn; }, 500);
 
+  // Your bottom-right ASCII art panel (exactly as you sent)
+  const IDLE_ART =
+`⢻⣿⡗⢶⣤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀     ⣀⣀
+⠀⢻⣇⠀⠈⠙⠳⣦⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⠶⠛⠋⢻⣹⣿⡿
+⠀⠀⠹⣆⠀⠀⠀⠀⠙⢷⣄⣀⣀⣀⣤⣤⣤⣄⣀⣴⠞⠋⠉⠀⠀⠀⢀⣿⡟⠁
+⠀⠀⠀⠙⢷⡀⠀⠀⠀⠀⠉⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⡾⠋⠀⠀
+⠀⠀⠀⠀⠈⠻⡶⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣠⡾⠋⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⣼⠃⠀⢠⠒⣆⠀⠀⠀⠀⠀⠀⢠⢲⣄⠀⠀⠀⢻⣆⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⢰⡏⠀⠀⠈⠛⠋⠀⢀⣀⡀⠀⠀⠘⠛⠃⠀⠀⠀⠈⣿⡀⠀⠀⠀⠀
+⠀⠀⠀⠀⣾⡟⠛⢳⠀⠀⠀⠀⠀⣉⣀⠀⠀⠀⠀⣰⢛⠙⣶⠀⢹⣇⠀⠀⠀⠀
+⠀⠀⠀⠀⢿⡗⠛⠋⠀⠀⠀⠀⣾⠋⠀⢱⠀⠀⠀⠘⠲⠗⠋⠀⠈⣿⠀⠀⠀⠀
+⠀⠀⠀⠀⠘⢷⡀⠀⠀⠀⠀⠀⠈⠓⠒⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⡇⠀⠀⠀
+⠀⠀⠀⠀⠀⠈⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣧⠀⠀⠀
+⠀⠀⠀⠀⠀⠈⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠁⠀`;
+
+  // Frames define what appears bottom-left, and what appears bottom-right
   const FRAMES = {
     IDLE: [
-      () => padBottom(
-        withCursor("COMMIT://LOTTERY_PROTOCOL v1.0...  IDLE STATE... ")
-      ),
-      () => padBottom(
-        withCursor("COMMIT://LOTTERY_PROTOCOL v1.0...  IDLE STATE... ")
-      ),
-      () => padBottom(
-        withCursor("COMMIT://LOTTERY_PROTOCOL v1.0...  IDLE STATE... ")
-      )
+      () => ({
+        main: withCursor("COMMIT://LOTTERY_PROTOCOL v1.0...  IDLE STATE... "),
+        art: IDLE_ART
+      }),
+      () => ({
+        main: withCursor("COMMIT://LOTTERY_PROTOCOL v1.0...  IDLE STATE... "),
+        art: IDLE_ART
+      })
     ],
 
     SNAPSHOT_TAKEN: [
-      padBottom(
+      {
+        main:
 `COMMIT://LOTTERY_PROTOCOL v1.0...  SNAPSHOT
 
 HOLDERS FROZEN.
-AWAITING COMMIT START.`
-      )
+AWAITING COMMIT START.`,
+        art: "" // clear bottom-right panel in non-idle
+      }
     ],
 
     COMMIT: [
-      padBottom(
+      {
+        main:
 `COMMIT://LOTTERY_PROTOCOL v1.0...  COMMIT
 
 COMMIT WINDOW OPEN.
-LOCKING HASHES...`
-      )
+LOCKING HASHES...`,
+        art: ""
+      }
     ],
 
     REVEAL: [
-      padBottom(
+      {
+        main:
 `COMMIT://LOTTERY_PROTOCOL v1.0...  REVEAL
 
 VERIFYING SECRETS...
-CALCULATING ENTROPY...`
-      )
+CALCULATING ENTROPY...`,
+        art: ""
+      }
     ],
 
     FINALIZED: [
-      padBottom(
+      {
+        main:
 `COMMIT://LOTTERY_PROTOCOL v1.0...  FINALIZED
 
 WINNER DERIVED.
-PROOF VERIFIED.`
-      )
+PROOF VERIFIED.`,
+        art: ""
+      }
     ]
   };
 
@@ -79,23 +96,29 @@ PROOF VERIFIED.`
     frame = 0;
   }
 
+  function renderFrame(f) {
+    const out = (typeof f === "function") ? f() : f;
+    termMain.textContent = out.main || "";
+    termArt.textContent  = out.art  || "";
+  }
+
   function play(state) {
     stop();
-    const frames = FRAMES[state] || [
-      padBottom("COMMIT://LOTTERY_PROTOCOL v1.0...  UNKNOWN STATE")
-    ];
+    const frames = FRAMES[state] || [{
+      main: "COMMIT://LOTTERY_PROTOCOL v1.0...  UNKNOWN STATE",
+      art: ""
+    }];
+
+    renderFrame(frames[0]);
 
     timer = setInterval(() => {
-      const f = frames[frame % frames.length];
-      terminal.textContent = typeof f === "function" ? f() : f;
+      renderFrame(frames[frame % frames.length]);
       frame++;
     }, 650);
   }
 
   async function fetchState() {
-    const res = await fetch(`${API_BASE}/api/public/state`, {
-      cache: "no-store"
-    });
+    const res = await fetch(`${API_BASE}/api/public/state`, { cache: "no-store" });
     if (!res.ok) throw new Error("state fetch failed");
     return res.json();
   }
@@ -109,11 +132,20 @@ PROOF VERIFIED.`
         lastState = state;
         play(state);
       }
+
+      // keep cursor blinking even without state changes on IDLE
+      if (state === "IDLE") {
+        // force refresh the current frame to update cursor
+        const frames = FRAMES.IDLE;
+        renderFrame(frames[frame % frames.length]);
+      }
     } catch {
       stop();
-      terminal.textContent = padBottom(
-        "COMMIT://LOTTERY_PROTOCOL v1.0...\nOFFLINE\nSTATE ENDPOINT UNREACHABLE."
-      );
+      termMain.textContent =
+`COMMIT://LOTTERY_PROTOCOL v1.0...
+OFFLINE
+STATE ENDPOINT UNREACHABLE.`;
+      termArt.textContent = "";
     }
   }
 
