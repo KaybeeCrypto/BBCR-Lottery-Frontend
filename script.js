@@ -26,13 +26,13 @@
   const FRAMES = {
     IDLE: [
       () => padBottom(
-        withCursor("COMMIT://LOTTERY_PROTOCOL v1.0...  ROUND LOADING... ")
+        withCursor("COMMIT://LOTTERY_PROTOCOL v1.0...  IDLE STATE... ")
       ),
       () => padBottom(
-        withCursor("COMMIT://LOTTERY_PROTOCOL v1.0...  ROUND LOADING.. ")
+        withCursor("COMMIT://LOTTERY_PROTOCOL v1.0...  IDLE STATE... ")
       ),
       () => padBottom(
-        withCursor("COMMIT://LOTTERY_PROTOCOL v1.0...  ROUND LOADING. ")
+        withCursor("COMMIT://LOTTERY_PROTOCOL v1.0...  IDLE STATE... ")
       )
     ],
 
