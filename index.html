@@ -15,7 +15,11 @@
       --line: rgba(255,255,255,0.9);
       --muted: rgba(255,255,255,0.7);
     }
-    
+    html, body {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+
     html {
       scroll-behavior: smooth;
     }
@@ -142,40 +146,39 @@
     }
 
     /* Terminal body is now a container; base font lives here */
-    .terminal-body {
+    .terminal-body{
       flex: 1;
       padding: 20px;
-      background: #000;
-      position: relative;
-      overflow: hidden;      /* hard clip: nothing leaks past borders */
-      font-size: 11px;       /* restores readable terminal size */
-      line-height: 1.6;      /* restores original feel */
+      background:#000;
+      overflow:hidden;             /* hard clip inside border */
+      display:grid;
+      grid-template-columns: 1fr auto;  /* left = main, right = art */
+      grid-template-rows: 1fr auto;     /* bottom row holds text/art */
+      align-items:end;
+      column-gap: 16px;
     }
 
-    /* Bottom-left main console line(s) */
-    .term-main {
-      position: absolute;
-      left: 20px;
-      bottom: 16px;
+    .term-main{
+      grid-column: 1;
+      grid-row: 2;
       margin: 0;
-      white-space: pre;
-      font: inherit;         /* inherits terminal-body font-size/line-height */
-      color: var(--fg);
+      white-space: pre;            /* keep console look */
+      font-size: 11px;
+      line-height: 1.6;
+      overflow: hidden;            /* prevent text from spilling */
     }
 
-    /* Bottom-right art panel */
-    .term-art {
-      position: absolute;
-      right: 20px;
-      bottom: 16px;
+    .term-art{
+      grid-column: 2;
+      grid-row: 2;
       margin: 0;
       white-space: pre;
       font-size: 10px;
       line-height: 1.2;
-      color: var(--fg);
-      text-align: left;
-      pointer-events: none;
+      pointer-events:none;
+      overflow: hidden;
     }
+
 
     .tokenomics-list {
       list-style: none;
@@ -247,16 +250,17 @@
 
     /* ===== MOBILE / SMALL SCREENS ===== */
     @media (max-width: 600px) {
-      .page { padding: 18px; }
-      .nav { justify-content: center; }
+      .page { padding: 16px; }
+      .nav { justify-content: center; font-size: 10px; gap: 12px; }
 
       .brand-row { gap: 12px; }
       .ticket-video { height: clamp(42px, 10vw, 48px); }
 
       .terminal { max-width: 100%; aspect-ratio: 16 / 9; }
-      .terminal-body { padding: 14px; font-size: 9px; line-height: 1.5; }
-      .term-art { font-size: 7px; line-height: 1.1; right: 14px; bottom: 14px; }
-      .term-main { left: 14px; bottom: 14px; }
+      .terminal-header { font-size: 9px; padding: 6px 8px; }
+      .terminal-body { padding: 12px;  column-gap: 10px;  }
+      .term-art { font-size: 6px; line-height: 1.1;}
+      .term-main { font-size: 8px; line-height: 1.5;}
 
       .tokenomics-list { font-size: 14px; }
       .how-it-works .step-title { font-size: 16px; }
@@ -266,6 +270,11 @@
       .eligibility-card label,
       .eligibility-card input,
       .eligibility-card button { font-size: 10px; }
+    }
+    @media (max-width: 380px){
+      .term-art { display: none; }   /* no overlap possible */
+      .terminal-body { grid-template-columns: 1fr; }
+      .term-main { grid-column: 1; }
     }
 
   </style>
