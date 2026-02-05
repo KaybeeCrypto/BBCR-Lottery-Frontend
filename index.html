@@ -67,6 +67,12 @@
       pointer-events: none;
     }
 
+    /* ===== HERO WELCOME TEXT (BIGGER) ===== */
+    .welcome-title-row span{
+      font-size: clamp(22px, 4vw, 32px);
+      letter-spacing: 0.15em;
+    }
+
     .brand {
       text-align: center;
       font-size: clamp(36px, 8vw, 72px);
@@ -269,6 +275,11 @@
       .nav { justify-content: center; font-size: 10px; gap: 12px; }
       .welcome-title-row{ gap: 10px; }
       .welcome-ticket{ height: clamp(56px, 14vw, 72px); }
+
+      /* keep WELCOME bigger but safe on small screens */
+      .welcome-title-row span{
+        font-size: clamp(18px, 6vw, 22px);
+      }
   
       .brand-row { gap: 12px; }
       .ticket-video { height: clamp(42px, 10vw, 48px); }
@@ -318,78 +329,56 @@
     </nav>
   </header>
 
-    <!-- HERO -->
-    <div class="section-wrap" id="hero">
+  <!-- HERO -->
+  <div class="section-wrap" id="hero">
 
-      <div class="section-title">
-        <div class="welcome-title-row">
-          <video
-            class="welcome-ticket"
-            src="./media_files/commit-ticket.webm"
-            autoplay
-            loop
-            muted
-            playsinline
-          ></video>
+    <div class="section-title">
+      <div class="welcome-title-row">
+        <video
+          class="welcome-ticket"
+          src="./media_files/commit-ticket.webm"
+          autoplay
+          loop
+          muted
+          playsinline
+        ></video>
 
-          <span>WELCOME</span>
+        <span>WELCOME</span>
 
-          <video
-            class="welcome-ticket"
-            src="./media_files/commit-ticket.webm"
-            autoplay
-            loop
-            muted
-            playsinline
-          ></video>
-        </div>
+        <video
+          class="welcome-ticket"
+          src="./media_files/commit-ticket.webm"
+          autoplay
+          loop
+          muted
+          playsinline
+        ></video>
       </div>
-
-      <section class="section" style="text-align:center;">
-        <div style="font-size:18px; margin-bottom:18px;">
-          FAIR-LAUNCH LOTTERY TOKEN
-        </div>
-
-        <div style="font-size:12px; color: var(--muted); max-width: 900px; margin: 0 auto 22px;">
-          COMMIT. REVEAL. ONE WINNER. FULLY ON-CHAIN — AND ANYONE CAN VERIFY IT.
-        </div>
-
-        <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap;">
-          <a href="#round" style="border:2px solid var(--line); padding:14px 16px; display:inline-block;">
-            OPEN TERMINAL
-          </a>
-          <a href="#how" style="border:2px solid var(--line); padding:14px 16px; display:inline-block;">
-            HOW IT WORKS
-          </a>
-        </div>
-      </section>
-
     </div>
 
-
-
-        <section class="section" style="text-align:center;">
-          <div style="font-size:18px; margin-bottom:18px;">
-            FAIR-LAUNCH LOTTERY TOKEN
-          </div>
-
-          <div style="font-size:12px; color: var(--muted); max-width: 900px; margin: 0 auto 22px;">
-            COMMIT. REVEAL. ONE WINNER. FULLY ON-CHAIN — AND ANYONE CAN VERIFY IT.
-          </div>
-
-          <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap;">
-            <a href="#round" style="border:2px solid var(--line); padding:14px 16px; display:inline-block;">
-              OPEN TERMINAL
-            </a>
-            <a href="#how" style="border:2px solid var(--line); padding:14px 16px; display:inline-block;">
-              HOW IT WORKS
-            </a>
-          </div>
-        </section>
+    <section class="section" style="text-align:center;">
+      <div style="font-size:18px; margin-bottom:18px;">
+        FAIR-LAUNCH LOTTERY TOKEN
       </div>
 
+      <div style="font-size:12px; color: var(--muted); max-width: 900px; margin: 0 auto 22px;">
+        COMMIT. REVEAL. ONE WINNER. FULLY ON-CHAIN — AND ANYONE CAN VERIFY IT.
+      </div>
+
+      <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap;">
+        <a href="#round" style="border:2px solid var(--line); padding:14px 16px; display:inline-block;">
+          OPEN TERMINAL
+        </a>
+        <a href="#how" style="border:2px solid var(--line); padding:14px 16px; display:inline-block;">
+          HOW IT WORKS
+        </a>
+      </div>
+    </section>
+
+  </div>
+
   <!-- ABOUT -->
-<div class="section-wrap" id="about">
+  <div class="section-wrap" id="about">
     <div class="section-title">ABOUT</div>
 
     <section class="section" style="text-align:center;">
@@ -470,22 +459,22 @@
     </section>
   </div>
 
-    <!-- WHY THIS ISN'T A SCAM -->
+  <!-- WHY THIS ISN'T A SCAM -->
   <div class="section-wrap" id="why">
-      <div class="section-title">WHY THIS ISN'T A SCAM</div>
+    <div class="section-title">WHY THIS ISN'T A SCAM</div>
 
-      <section class="section" style="text-align:center;">
-        <div style="font-size:12px; color: var(--muted); max-width: 900px; margin: 0 auto;">
-          THE SNAPSHOT IS TAKEN AT A PUBLIC BLOCK HEIGHT.
-          THE COMMIT HASH IS POSTED AND CANNOT BE CHANGED.
-          THE REVEAL MAKES THE SEED PUBLIC.
-          THE WINNER IS DERIVED DETERMINISTICALLY — ANYONE RUNNING THE SAME STEPS GETS THE SAME RESULT.
-          IF YOU DON’T TRUST WORDS, TRUST THE CHAIN.
-        </div>
-      </section>
-    </div>
+    <section class="section" style="text-align:center;">
+      <div style="font-size:12px; color: var(--muted); max-width: 900px; margin: 0 auto;">
+        THE SNAPSHOT IS TAKEN AT A PUBLIC BLOCK HEIGHT.
+        THE COMMIT HASH IS POSTED AND CANNOT BE CHANGED.
+        THE REVEAL MAKES THE SEED PUBLIC.
+        THE WINNER IS DERIVED DETERMINISTICALLY — ANYONE RUNNING THE SAME STEPS GETS THE SAME RESULT.
+        IF YOU DON’T TRUST WORDS, TRUST THE CHAIN.
+      </div>
+    </section>
+  </div>
 
-    <!-- ROADMAP -->
+  <!-- ROADMAP -->
   <div class="section-wrap" id="roadmap">
     <div class="section-title">ROADMAP</div>
 
@@ -499,7 +488,7 @@
     </section>
   </div>
 
-    <!-- COMMUNITY -->
+  <!-- COMMUNITY -->
   <div class="section-wrap" id="community">
     <div class="section-title">COMMUNITY</div>
 
@@ -524,7 +513,7 @@
     </section>
   </div>
 
-    <!-- FINAL CTA -->
+  <!-- FINAL CTA -->
   <div class="section-wrap" id="final-cta">
     <div class="section-title">READY TO COMMIT?</div>
 
@@ -543,9 +532,6 @@
       </div>
     </section>
   </div>
-
-  
-
 
   <!-- FOOTER -->
   <footer>
