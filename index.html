@@ -52,6 +52,21 @@
       margin-bottom: 40px;
     }
 
+    /* ===== HERO WELCOME TICKETS ===== */
+    .welcome-title-row{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+    }
+
+    .welcome-ticket{
+      height: clamp(90px, 12vw, 120px); /* bigger than header tickets */
+      width: auto;
+      object-fit: contain;
+      pointer-events: none;
+    }
+
     .brand {
       text-align: center;
       font-size: clamp(36px, 8vw, 72px);
@@ -252,7 +267,9 @@
     @media (max-width: 600px) {
       .page { padding: 16px; }
       .nav { justify-content: center; font-size: 10px; gap: 12px; }
-
+      .welcome-title-row{ gap: 10px; }
+      .welcome-ticket{ height: clamp(56px, 14vw, 72px); }
+  
       .brand-row { gap: 12px; }
       .ticket-video { height: clamp(42px, 10vw, 48px); }
 
@@ -286,16 +303,8 @@
   <!-- HEADER -->
   <header class="header">
     <div class="brand-row">
-      <video
-        class="ticket-video"
-        src="./media_files/commit-ticket.webm"
-        autoplay
-        loop
-        muted
-        playsinline
-      ></video>
-
       <div class="brand">COMMIT</div>
+    </div>
 
       <video
         class="ticket-video"
@@ -319,9 +328,31 @@
     </nav>
   </header>
 
-  <!-- HERO -->
-<div class="section-wrap" id="hero">
-    <div class="section-title">WELCOME</div>
+    <!-- HERO -->
+    <div class="section-title">
+      <div class="welcome-title-row">
+        <video
+          class="welcome-ticket"
+          src="./media_files/commit-ticket.webm"
+          autoplay
+          loop
+          muted
+          playsinline
+        ></video>
+
+        <span>WELCOME</span>
+
+        <video
+          class="welcome-ticket"
+          src="./media_files/commit-ticket.webm"
+          autoplay
+          loop
+          muted
+          playsinline
+        ></video>
+      </div>
+    </div>
+
 
     <section class="section" style="text-align:center;">
       <div style="font-size:18px; margin-bottom:18px;">
