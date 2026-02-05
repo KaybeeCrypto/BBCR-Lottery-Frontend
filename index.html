@@ -90,7 +90,7 @@
 
     .nav {
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       flex-wrap: wrap;
       gap: 16px;
       border-top: 2px solid var(--line);
@@ -306,16 +306,6 @@
       <div class="brand">COMMIT</div>
     </div>
 
-      <video
-        class="ticket-video"
-        src="./media_files/commit-ticket.webm"
-        autoplay
-        loop
-        muted
-        playsinline
-      ></video>
-    </div>
-
     <nav class="nav">
       <a href="#hero">WELCOME</a>
       <a href="#round">LOTTERY TERMINAL</a>
@@ -329,50 +319,74 @@
   </header>
 
     <!-- HERO -->
-    <div class="section-title">
-      <div class="welcome-title-row">
-        <video
-          class="welcome-ticket"
-          src="./media_files/commit-ticket.webm"
-          autoplay
-          loop
-          muted
-          playsinline
-        ></video>
+    <div class="section-wrap" id="hero">
 
-        <span>WELCOME</span>
+      <div class="section-title">
+        <div class="welcome-title-row">
+          <video
+            class="welcome-ticket"
+            src="./media_files/commit-ticket.webm"
+            autoplay
+            loop
+            muted
+            playsinline
+          ></video>
 
-        <video
-          class="welcome-ticket"
-          src="./media_files/commit-ticket.webm"
-          autoplay
-          loop
-          muted
-          playsinline
-        ></video>
+          <span>WELCOME</span>
+
+          <video
+            class="welcome-ticket"
+            src="./media_files/commit-ticket.webm"
+            autoplay
+            loop
+            muted
+            playsinline
+          ></video>
+        </div>
       </div>
+
+      <section class="section" style="text-align:center;">
+        <div style="font-size:18px; margin-bottom:18px;">
+          FAIR-LAUNCH LOTTERY TOKEN
+        </div>
+
+        <div style="font-size:12px; color: var(--muted); max-width: 900px; margin: 0 auto 22px;">
+          COMMIT. REVEAL. ONE WINNER. FULLY ON-CHAIN — AND ANYONE CAN VERIFY IT.
+        </div>
+
+        <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap;">
+          <a href="#round" style="border:2px solid var(--line); padding:14px 16px; display:inline-block;">
+            OPEN TERMINAL
+          </a>
+          <a href="#how" style="border:2px solid var(--line); padding:14px 16px; display:inline-block;">
+            HOW IT WORKS
+          </a>
+        </div>
+      </section>
+
     </div>
 
 
-    <section class="section" style="text-align:center;">
-      <div style="font-size:18px; margin-bottom:18px;">
-        FAIR-LAUNCH LOTTERY TOKEN
-      </div>
 
-      <div style="font-size:12px; color: var(--muted); max-width: 900px; margin: 0 auto 22px;">
-        COMMIT. REVEAL. ONE WINNER. FULLY ON-CHAIN — AND ANYONE CAN VERIFY IT.
-      </div>
+        <section class="section" style="text-align:center;">
+          <div style="font-size:18px; margin-bottom:18px;">
+            FAIR-LAUNCH LOTTERY TOKEN
+          </div>
 
-      <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap;">
-        <a href="#round" style="border:2px solid var(--line); padding:14px 16px; display:inline-block;">
-          OPEN TERMINAL
-        </a>
-        <a href="#how" style="border:2px solid var(--line); padding:14px 16px; display:inline-block;">
-          HOW IT WORKS
-        </a>
+          <div style="font-size:12px; color: var(--muted); max-width: 900px; margin: 0 auto 22px;">
+            COMMIT. REVEAL. ONE WINNER. FULLY ON-CHAIN — AND ANYONE CAN VERIFY IT.
+          </div>
+
+          <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap;">
+            <a href="#round" style="border:2px solid var(--line); padding:14px 16px; display:inline-block;">
+              OPEN TERMINAL
+            </a>
+            <a href="#how" style="border:2px solid var(--line); padding:14px 16px; display:inline-block;">
+              HOW IT WORKS
+            </a>
+          </div>
+        </section>
       </div>
-    </section>
-  </div>
 
   <!-- ABOUT -->
 <div class="section-wrap" id="about">
