@@ -197,13 +197,14 @@
         const frames = FRAMES.IDLE;
         renderFrame(frames[frame % frames.length]);
       }
-    } catch {
-      termMain.innerHTML =
-        muted("COMMIT://LOTTERY_PROTOCOL v1.0...\n") +
-        purple("OFFLINE\n") +
-        muted("STATE ENDPOINT UNREACHABLE.");
-      termArt.textContent = "";
-    }
+    } catch (e) {
+        console.warn("STATE FETCH FAILED:", e);
+        termMain.innerHTML =
+          muted("COMMIT://LOTTERY_PROTOCOL v1.0...\n") +
+          purple("CONNECTING\n") +
+          muted("AWAITING BACKEND...");
+      }
+
   }
 
   tick();
