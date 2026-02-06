@@ -172,6 +172,9 @@
         signal: controller.signal
       });
 
+      console.log("STATE RESPONSE STATUS:", res.status);
+      console.log("STATE RESPONSE HEADERS:", [...res.headers.entries()]);
+      
       if (!res.ok) {
         throw new Error(`state fetch failed: ${res.status}`);
       }
