@@ -1,5 +1,9 @@
 (() => {
   const API_BASE = "https://bbcr-lottery.onrender.com";
+  fetch(`${API_BASE}/health`)
+  .then(r => r.json())
+  .then(j => console.log("BACKEND OK:", j))
+  .catch(e => console.error("BACKEND DOWN:", e));
 
   const termMain = document.getElementById("termMain");
   const termArt  = document.getElementById("termArt");
@@ -159,12 +163,25 @@
   }
 
   async function fetchState() {
-    const res = await fetch(`${API_BASE}/api/public/state`, {
-      cache: "no-store"
-    });
-    if (!res.ok) throw new Error("state fetch failed");
-    return res.json();
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 8000);
+
+    try {
+      const res = await fetch(`${API_BASE}/api/public/state`, {
+        cache: "no-store",
+        signal: controller.signal
+      });
+
+      if (!res.ok) {
+        throw new Error(`state fetch failed: ${res.status}`);
+      }
+
+      return await res.json();
+    } finally {
+      clearTimeout(timeout);
+    }
   }
+
 
   async function tick() {
     try {
@@ -181,7 +198,6 @@
         renderFrame(frames[frame % frames.length]);
       }
     } catch {
-      stop();
       termMain.innerHTML =
         muted("COMMIT://LOTTERY_PROTOCOL v1.0...\n") +
         purple("OFFLINE\n") +
