@@ -171,13 +171,18 @@
       flex: 1;
       padding: 20px;
       background:#000;
-      overflow:hidden;             /* hard clip inside border */
+      overflow:hidden;
       display:grid;
-      grid-template-columns: 1fr auto;  /* left = main, right = art */
-      grid-template-rows: 1fr auto;     /* bottom row holds text/art */
-      align-items:end;
+
+      /* NEW: meta row + content row */
+      grid-template-columns: 1fr auto;
+      grid-template-rows: auto 1fr;
+
       column-gap: 16px;
+      row-gap: 14px;
+      align-items: stretch;
     }
+
 
     .term-main{
       grid-column: 1;
@@ -186,7 +191,8 @@
       white-space: pre;            /* keep console look */
       font-size: 11px;
       line-height: 1.6;
-      overflow: hidden;            /* prevent text from spilling */
+      overflow: hidden;
+      align-self: end;            /* prevent text from spilling */
     }
 
     .term-art{
@@ -198,6 +204,35 @@
       line-height: 1.2;
       pointer-events:none;
       overflow: hidden;
+      align-self: end;
+    }
+
+    .term-meta{
+      grid-column: 1 / -1;   /* span both columns */
+      grid-row: 1;
+      font-size: 9px;
+      line-height: 1.6;
+      color: var(--term-muted, rgba(255,255,255,0.6));
+      border-bottom: 1px dashed rgba(255,255,255,0.25);
+      padding-bottom: 10px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .term-meta .label{
+      color: rgba(255,255,255,0.65);
+    }
+
+    .term-meta .val{
+      color: rgba(255,255,255,0.92);
+    }
+
+    .term-meta .pill{
+      display:inline-block;
+      padding: 2px 6px;
+      border: 1px solid rgba(255,255,255,0.25);
+      margin-right: 8px;
     }
 
 
@@ -272,6 +307,7 @@
     /* ===== MOBILE / SMALL SCREENS ===== */
     @media (max-width: 600px) {
       .page { padding: 16px; }
+      .term-meta{ font-size: 8px; padding-bottom: 8px; }
       .nav { justify-content: center; font-size: 10px; gap: 12px; }
       .welcome-title-row{ gap: 10px; }
       .welcome-ticket{ height: clamp(56px, 14vw, 72px); }
@@ -300,6 +336,7 @@
       .eligibility-card button { font-size: 10px; }
     }
     @media (max-width: 380px){
+      .term-meta{ white-space: normal; }
       .term-art { display: none; }   /* no overlap possible */
       .terminal-body { grid-template-columns: 1fr; }
       .term-main { grid-column: 1; }
@@ -405,6 +442,7 @@
         </div>
 
         <div class="terminal-body" id="roundTerminal">
+          <div id="termMeta" class="term-meta"></div>
           <pre id="termMain" class="term-main"></pre>
           <pre id="termArt" class="term-art"></pre>
         </div>
