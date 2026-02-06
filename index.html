@@ -180,32 +180,44 @@
 
       column-gap: 16px;
       row-gap: 14px;
-      align-items: stretch;
+      align-items: end;  /* align both meta and content to the bottom */
     }
 
 
     .term-main{
+      padding-bottom: 6px;
       grid-column: 1;
       grid-row: 2;
       margin: 0;
-      white-space: pre;            /* keep console look */
-      font-size: 11px;
-      line-height: 1.6;
+
+      white-space: pre;
       overflow: hidden;
-      align-self: end;            /* prevent text from spilling */
+
+      /* NEW: scale with terminal size */
+      font-size: clamp(12px, 1.3vw, 16px);
+      line-height: 1.7;
+
+      align-self: end;
     }
 
+
     .term-art{
+      min-height: 65%;
       grid-column: 2;
       grid-row: 2;
       margin: 0;
+
       white-space: pre;
-      font-size: 10px;
-      line-height: 1.2;
-      pointer-events:none;
       overflow: hidden;
+      pointer-events:none;
+
+      /* NEW: art scales more aggressively */
+      font-size: clamp(10px, 1.8vw, 22px);
+      line-height: 1.1;
+
       align-self: end;
     }
+
 
     .term-meta{
       grid-column: 1 / -1;   /* span both columns */
@@ -316,7 +328,16 @@
       .welcome-title-row span{
         font-size: clamp(18px, 6vw, 22px);
       }
-  
+      
+      .term-main{
+        font-size: clamp(10px, 3vw, 13px);
+      }
+
+      .term-art{
+        font-size: clamp(8px, 3.5vw, 14px);
+        min-height: 50%;
+      }
+
       .brand-row { gap: 12px; }
       .ticket-video { height: clamp(42px, 10vw, 48px); }
 
