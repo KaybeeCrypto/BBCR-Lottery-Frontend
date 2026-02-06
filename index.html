@@ -202,21 +202,26 @@
 
 
     .term-art{
-      min-height: 65%;
-      grid-column: 2;
-      grid-row: 2;
-      margin: 0;
+        grid-column: 2;
+        grid-row: 2;
+        margin: 0;
 
-      white-space: pre;
-      overflow: hidden;
-      pointer-events:none;
+        /* keep console look */
+        white-space: pre;
+        overflow: hidden;
+        pointer-events: none;
 
-      /* NEW: art scales more aggressively */
-      font-size: clamp(10px, 1.8vw, 22px);
-      line-height: 1.1;
+        /* size */
+        font-size: clamp(10px, 1.8vw, 22px);
+        line-height: 1.1;
 
-      align-self: end;
-    }
+        /* IMPORTANT: reserve height but anchor content to bottom */
+        min-height: 65%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;   /* <-- this is the key */
+      }
+
 
 
     .term-meta{
