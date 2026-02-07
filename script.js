@@ -164,49 +164,37 @@ const COMMIT_ART = `
 
 
   REVEAL: [
-    (data) => ({
-      main:
-        teal("REVEAL STARTED\n") +
-        muted("--------------\n") +
-        "SECRETS OPENING...\n" +
-        "FINAL SEED: " + teal(short(data?.final_seed)) + "\n" +
-        "TX: " + solscanLink(data?.reveal?.reveal_tx_sig) + "\n" +
-        muted("HASHES MATCHING..."),
-      art: ""
-    }),
-    (data) => ({
-      main:
-        teal("REVEAL STARTED\n") +
-        muted("--------------\n") +
-        "CHECK 1 " + teal("✓") + "\n" +
-        "CHECK 2 " + teal("✓") + "\n" +
-        muted("DERIVING ENTROPY..."),
-      art: ""
-    }),
-    (data) => ({
-      main:
-        teal("REVEAL STARTED\n") +
-        muted("--------------\n") +
-        "CHECK 1 " + teal("✓") + "\n" +
-        "CHECK 2 " + teal("✓") + "\n" +
-        "FINAL SEED " + teal("DERIVED") + "\n" +
-        muted("\nPROOF IN META PANEL ↑"),
-      art: ""
-    })
-  ],
-
-
-  FINALIZED: [
   (data) => ({
     main:
-      purple("ROUND FINALIZED\n") +
-      muted("---------------\n") +
-      "WINNER:\n" +
-      teal(short(data?.winner_wallet)) + "\n\n" +
-      "🎉 CONGRATS 🎉\n\n" +
-      "VERIFY EVERYTHING ON-CHAIN",
+      teal("REVEAL STARTED\n") +
+      muted("--------------\n") +
+      "CHECK 1 " + teal("✓") + "\n" +
+      "CHECK 2 " + teal("✓") + "\n" +
+      "FINAL SEED " + teal("DERIVED") + "\n\n" +
+      "TX: " + solscanLink(data?.reveal?.reveal_tx_sig),
     art: ""
   })
+],
+
+  FINALIZED: [
+  (data) => {
+    const winner =
+      data?.winner_wallet ??
+      data?.finalize?.winner_wallet ??
+      data?.finalized?.winner_wallet ??
+      null;
+
+    return {
+      main:
+        purple("ROUND FINALIZED\n") +
+        muted("---------------\n") +
+        "WINNER:\n" +
+        (winner ? teal(short(winner)) : muted("—")) + "\n\n" +
+        "🎉 CONGRATS 🎉\n\n" +
+        "VERIFY EVERYTHING ON-CHAIN",
+      art: ""
+    };
+  }
 ]
 };
 
