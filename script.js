@@ -10,7 +10,7 @@
   const termMeta = document.getElementById("termMeta");
   if (!termMain || !termArt) return;
 
- 
+  let lastData = null;
   let consecutiveFailures = 0;
   let timer = null;
   let idleTimer = null;
@@ -101,6 +101,13 @@
 ⠀⠀⠀⠀⠀⠈⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣧⠀⠀⠀
 ⠀⠀⠀⠀⠀⠈⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠁⠀⠀`;
 
+
+const COMMIT_ART = `
+  [##########]
+  [  HASH 🔒  ]
+  [##########]
+`;
+
   // STATE FRAMES
   const FRAMES = {
   IDLE: [
@@ -127,45 +134,34 @@
   ],
 
   SNAPSHOT: [
-    {
+    (data) => ({
       main:
         purple("SNAPSHOT TAKEN\n") +
         muted("--------------\n") +
-        "HOLDERS " + teal("LOCKED") + "\n" +
-        "NO MORE MOVES\n" +
-        muted("\nPROOF IN META PANEL ↑"),
+        "HOLDERS " + teal("LOCKED") + "\n\n" +
+        "TX: " + solscanLink(data?.snapshot_tx),
       art: ""
-    },
-    {
-      main:
-        purple("SNAPSHOT TAKEN\n") +
-        muted("--------------\n") +
-        "HOLDERS " + teal("LOCKED") + "\n" +
-        "THIS SET IS " + teal("FINAL") + "\n" +
-        muted("\nMISS THIS BLOCK = YOU'RE OUT"),
-      art: ""
-    }
+    })
   ],
+
 
   COMMIT: [
     {
-      main:
-        teal("COMMIT PHASE LIVE\n") +
-        muted("-----------------\n") +
-        "HASH " + teal("LOCKED") + "\n" +
-        "SEED " + muted("HIDDEN") + "\n" +
-        muted("\nEVEN WE CAN'T SEE IT"),
-      art: ""
+      main: teal("COMMIT PHASE LIVE\n") +
+            muted("-----------------\n") +
+            "HASH " + teal("LOCKED") + "\n" +
+            "SEED " + muted("HIDDEN") + "\n",
+      art: COMMIT_ART
     },
     {
-      main:
-        teal("COMMIT PHASE LIVE\n") +
-        muted("-----------------\n") +
-        "COMMIT HASH: " + teal("SEALED") + "\n" +
-        muted("\nCHANGE THIS? ") + purple("IMPOSSIBLE."),
-      art: ""
+      main: teal("COMMIT PHASE LIVE\n") +
+            muted("-----------------\n") +
+            "COMMIT HASH: " + teal("SEALED") + "\n" +
+            muted("\nCHANGE THIS? ") + purple("IMPOSSIBLE."),
+      art: COMMIT_ART
     }
   ],
+
 
   REVEAL: [
     {
@@ -173,6 +169,8 @@
         teal("REVEAL STARTED\n") +
         muted("--------------\n") +
         "SECRETS OPENING...\n" +
+        "FINAL SEED: " + teal(short(data?.final_seed)) + "\n" +
+        "TX: " + solscanLink(data?.reveal_tx) + 
         muted("HASHES MATCHING..."),
       art: ""
     },
@@ -198,26 +196,26 @@
   ],
 
   FINALIZED: [
-    {
-      main:
-        purple("ROUND FINALIZED\n") +
-        muted("---------------\n") +
-        "WINNER " + purple("LOCKED") + "\n" +
-        "NO RE-RUNS\n" +
-        muted("\nRUN THIS LOCALLY — SAME RESULT."),
-      art: ""
-    },
-    {
-      main:
-        purple("ROUND FINALIZED\n") +
-        muted("---------------\n") +
-        "WINNER " + purple("LOCKED") + "\n" +
-        muted("\nDON'T TRUST — ") + teal("VERIFY"),
-      art: ""
-    }
-  ]
+  (data) => ({
+    main:
+      purple("ROUND FINALIZED\n") +
+      muted("---------------\n") +
+      "WINNER:\n" +
+      teal(short(data?.winner_wallet)) + "\n\n" +
+      "🎉 CONGRATS 🎉\n\n" +
+      "VERIFY EVERYTHING ON-CHAIN",
+    art: ""
+  })
+]
 };
 
+  function solscanLink(signature) {
+    if (!signature) return muted("—");
+    const url = `https://solscan.io/tx/${signature}`;
+    return `<a href="${url}" target="_blank" style="color:#00ffa3;text-decoration:underline">
+      ${short(signature)}
+    </a>`;
+  }
 
   function stop() {
     if (timer) clearInterval(timer);
@@ -225,11 +223,12 @@
     frame = 0;
   }
 
-  function renderFrame(f) {
-    const out = typeof f === "function" ? f() : f;
+  function renderFrame(f, data) {
+    const out = typeof f === "function" ? f(data) : f;
     termMain.innerHTML = out.main || "";
     termArt.textContent = out.art || "";
   }
+
 
   function esc(s) {
     return String(s ?? "")
@@ -266,6 +265,11 @@
     `<span class="label">REVEAL_DL:</span> <span class="val">${revealDeadline ? teal(esc(revealDeadline)) : muted("—")}</span>`;
 }
 
+  function normalizeState(state) {
+    if (state === "SNAPSHOT_TAKEN") return "SNAPSHOT";
+    return state;
+  }
+
   function play(state) {
     stop();
     if (idleTimer) {
@@ -278,7 +282,8 @@
       art: ""
     }];
 
-    renderFrame(frames[0]);
+    renderFrame(frames[0], lastData);
+
 
     if (state === "IDLE") {
       frame = 0;
@@ -348,15 +353,9 @@ function valOrPending(v, colorFn = teal) {
       const data = await fetchState();
       consecutiveFailures = 0;
 
-      function esc(s) {
-        return String(s ?? "")
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;");
-      }
-
-      const state = data.round_state;
+      const state = normalizeState(data?.round_state ?? "UNKNOWN");
       renderMeta(data);
+      lastData = data;
 
       if (!hasRenderedOnce || state !== lastState) {
         lastState = state;
