@@ -571,16 +571,35 @@ function formatCountdown(deadlineIso) {
 
   async function checkEligibility(wallet) {
     if (!lastData?.snapshot?.snapshot_id) {
-      throw new Error("No snapshot available");
+      return {
+        eligible: false,
+        reason: "SNAPSHOT_NOT_TAKEN"
+      };
     }
 
-    const snapshotId = lastData.snapshot.snapshot_id;
-    const url = `${API_BASE}/api/public/eligibility/${snapshotId}/${wallet}`;
+
+    const snapshot_id = lastData.snapshot.snapshot_id;
+    const url = `${API_BASE}/api/public/eligibility/${snapshot_id}/${encodeURIComponent(wallet)}`;
+
 
     const res = await fetch(url, { cache: "no-store" });
-    if (!res.ok) throw new Error("Eligibility check failed");
 
-    return res.json();
+    let payload;
+    try {
+      payload = await res.json();
+    } catch {
+      payload = null;
+    }
+
+    if (!res.ok) {
+      return {
+        eligible: false,
+        reason: payload?.detail || "CHECK_FAILED"
+      };
+    }
+
+    return payload;
+
   }
 
   if (checkBtn && walletInput) {
@@ -598,11 +617,22 @@ function formatCountdown(deadlineIso) {
           checkBtn.textContent = "ELIGIBLE ✓";
           checkBtn.style.borderColor = "#00ffa3";
           checkBtn.style.color = "#00ffa3";
+        } else if (result.reason === "SNAPSHOT_NOT_TAKEN") {
+          checkBtn.textContent = "NO ROUND RUNNING";
+          checkBtn.style.color = "#888";
+          checkBtn.style.borderColor = "#888";
+
+        } else if (result.reason === "Snapshot not found") {
+          checkBtn.textContent = "SNAPSHOT RESET";
+          checkBtn.style.color = "#888";
+          checkBtn.style.borderColor = "#888";
+
         } else {
           checkBtn.textContent = "NOT ELIGIBLE ✕";
           checkBtn.style.borderColor = "#dc1fff";
           checkBtn.style.color = "#dc1fff";
         }
+
 
       } catch (e) {
         checkBtn.textContent = "ERROR";
