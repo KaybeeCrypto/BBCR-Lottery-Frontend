@@ -370,33 +370,38 @@
     /* ===== MOBILE / SMALL SCREENS ===== */
     @media (max-width: 600px) {
       .page { padding: 16px; }
+
       .term-meta{ font-size: 8px; padding-bottom: 8px; }
       .nav { justify-content: center; font-size: 10px; gap: 12px; }
+
       .welcome-title-row{ gap: 10px; }
       .welcome-ticket{ height: clamp(56px, 14vw, 72px); }
-
-      /* keep WELCOME bigger but safe on small screens */
       .welcome-title-row span{
         font-size: clamp(18px, 6vw, 22px);
       }
-      
-      .term-main{
-        font-size: clamp(10px, 3vw, 13px);
+
+      .terminal {
+        max-width: 100%;
+        aspect-ratio: auto;  
       }
 
-      .term-art{
-        font-size: clamp(8px, 3.5vw, 14px);
-        min-height: 50%;
+      .terminal-body {
+        padding: 12px;
+        column-gap: 10px;
+        overflow: visible;    
       }
 
-      .brand-row { gap: 12px; }
-      .ticket-video { height: clamp(42px, 10vw, 48px); }
+      .term-main {
+        font-size: 8px;
+        line-height: 1.5;
+        align-self: start;
+      }
 
-      .terminal { max-width: 100%; aspect-ratio: 16 / 9; }
-      .terminal-header { font-size: 9px; padding: 6px 8px; }
-      .terminal-body { padding: 12px;  column-gap: 10px;  }
-      .term-art { font-size: 6px; line-height: 1.1;}
-      .term-main { font-size: 8px; line-height: 1.5;}
+      .term-art {
+        font-size: 6px;
+        line-height: 1.1;
+        align-self: start;
+      }
 
       .tokenomics-list { font-size: 14px; }
       .how-it-works .step-title { font-size: 16px; }
@@ -407,6 +412,8 @@
       .eligibility-card input,
       .eligibility-card button { font-size: 10px; }
     }
+
+
     @media (max-width: 380px){
       .term-meta{ white-space: normal; }
       .term-art { display: none; }   /* no overlap possible */
