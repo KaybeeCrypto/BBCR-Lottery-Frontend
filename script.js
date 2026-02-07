@@ -213,7 +213,7 @@ const COMMIT_ART = `
   function solscanLink(signature) {
     if (!signature) return muted("—");
     const url = `https://solscan.io/tx/${signature}`;
-    return `<a href="${url}" target="_blank" style="color:#00ffa3;text-decoration:underline">
+    return `<a href="${url}" target="_blank" style="color:#00ffa3;text-decoration:none">
       ${short(signature)}
     </a>`;
   }
