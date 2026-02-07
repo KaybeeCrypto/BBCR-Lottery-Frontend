@@ -450,6 +450,23 @@ const FINALIZE_ART =
     if (state === "SNAPSHOT_TAKEN") return "SNAPSHOT";
     return state;
   }
+  
+  function setArtHeight(px) {
+    if (!termArt) return;
+    termArt.style.maxHeight = px + "px";
+  }
+  
+  // control art size per state
+  switch (state) {
+    case "REVEAL":
+      setArtHeight(320);
+      break;
+    case "FINALIZED":
+      setArtHeight(300);
+      break;
+    default:
+      setArtHeight(420);
+  }
 
   function play(state) {
     stop();

@@ -184,6 +184,11 @@
     }
 
 
+    #termMain {
+      z-index: 2;
+      position: relative;
+    }
+
     .term-main a {
       text-decoration: none;
       cursor: pointer;
@@ -212,6 +217,17 @@
       line-height: 1.7;
 
       align-self: end;
+    }
+
+    #termArt {
+      max-height: 420px;          /* 🔴 KEY LINE */
+      overflow: hidden;           /* hides excess lines */
+      white-space: pre;
+      line-height: 1.05;
+    }
+
+    #termArt {
+      z-index: 1;
     }
 
 
