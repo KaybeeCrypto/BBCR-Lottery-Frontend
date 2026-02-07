@@ -594,7 +594,7 @@ function formatCountdown(deadlineIso) {
         pill("SNAP:", muted("—")) +
         pill("ROOT:", muted("—")) +
         pill("WIN:", muted("—")) +
-        `<div style="height:6px"></div>` +
+        `<div class="meta-sep">--------------------</div>` +
         muted("BACKEND DOWN OR WAKING UP…");
     }
 

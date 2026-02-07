@@ -180,9 +180,13 @@
 
       column-gap: 16px;
       row-gap: 14px;
-      align-items: end;  /* align both meta and content to the bottom */
+      align-items: start; 
     }
 
+    .meta-sep {
+      margin: 4px 0 2px;
+      opacity: 0.6;
+    }
 
     #termMain {
       z-index: 2;
@@ -203,41 +207,19 @@
       cursor: pointer;
     }
 
-    .term-main{
-      padding-bottom: 6px;
+    .term-main {
       grid-column: 1;
       grid-row: 2;
-      margin: 0;
 
       white-space: pre;
       overflow: hidden;
 
-      /* NEW: scale with terminal size */
       font-size: clamp(12px, 1.3vw, 16px);
       line-height: 1.7;
 
-      align-self: end;
+      align-self: end;   /* bottom-left anchor */
+      padding-bottom: 6px;
     }
-
-    .termArt {
-    grid-column: 2;
-    grid-row: 2;
-    margin: 0;
-
-    white-space: pre;
-    overflow: hidden;
-    pointer-events: none;
-
-    font-size: clamp(10px, 1.8vw, 22px);
-    line-height: 1.05;
-
-    max-height: 420px;        /* controlled by JS */
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-
-    z-index: 1;
-  }
 
 
     #termMeta {
@@ -246,24 +228,26 @@
     }
 
 
-    .termArt {
+    .term-art {
       grid-column: 2;
       grid-row: 2;
-      margin: 0;
 
       white-space: pre;
       overflow: hidden;
       pointer-events: none;
 
-      /* Typography controls ALL sizing */
       font-family: "Press Start 2P", monospace;
-      font-size: 11px;        /* base size */
-      line-height: 1.05;      /* compact unicode blocks */
+      font-size: 11px;
+      line-height: 1.05;
 
-      padding-bottom: 6px;    /* prevents last-line clipping */
+      /* anchor to bottom-right of its grid cell */
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-end;
 
-      z-index: 1;
+      padding-bottom: 6px;
     }
+
 
 
     .term-meta .label{
