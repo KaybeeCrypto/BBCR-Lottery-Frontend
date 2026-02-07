@@ -528,47 +528,46 @@ function formatCountdown(deadlineIso) {
 
 
   async function tick() {
-    try {
-      const data = await fetchState();
-      consecutiveFailures = 0;
+  try {
+    const data = await fetchState();
+    consecutiveFailures = 0;
 
-      const state = normalizeState(data?.round_state ?? "UNKNOWN");
-      lastData = data;
+    const state = normalizeState(data?.round_state ?? "UNKNOWN");
+    lastData = data;
 
-      if (!hasRenderedOnce || state !== lastState) {
-        lastState = state;
-        hasRenderedOnce = true;
-        play(state);
-      }
+    // 🔹 ALWAYS update top terminal info
+    renderMeta(lastData);
 
-    } catch (e) {
-      consecutiveFailures++;
-
-      // Only show CONNECTING after repeated failures
-      if (consecutiveFailures < 3) {
-        console.warn("Transient fetch failure, keeping UI stable");
-        return;
-      }
-
-      console.warn("STATE FETCH FAILED:", e);
-
-      if (termMeta) {
-        termMeta.innerHTML =
-          pill("PHASE:", muted("CONNECTING")) +
-          pill("SNAP:", muted("—")) +
-          pill("ROOT:", muted("—")) +
-          pill("WIN:", muted("—")) +
-          `<br>` +
-          muted("BACKEND DOWN OR WAKING UP…");
-      }
-
-      termMain.innerHTML =
-        muted("COMMIT://LOTTERY_PROTOCOL v1.0...\n") +
-        purple("CONNECTING\n") +
-        muted("AWAITING BACKEND...");
-      termArt.textContent = "";
+    // 🔹 Only restart animations if state changed
+    if (!hasRenderedOnce || state !== lastState) {
+      lastState = state;
+      hasRenderedOnce = true;
+      play(state);
     }
+
+  } catch (e) {
+    consecutiveFailures++;
+
+    if (consecutiveFailures < 3) return;
+
+    if (termMeta) {
+      termMeta.innerHTML =
+        pill("PHASE:", muted("CONNECTING")) +
+        pill("SNAP:", muted("—")) +
+        pill("ROOT:", muted("—")) +
+        pill("WIN:", muted("—")) +
+        `<br>` +
+        muted("BACKEND DOWN OR WAKING UP…");
+    }
+
+    termMain.innerHTML =
+      muted("COMMIT://LOTTERY_PROTOCOL v1.0...\n") +
+      purple("CONNECTING\n") +
+      muted("AWAITING BACKEND...");
+    termArt.textContent = "";
   }
+}
+
 
 
 
