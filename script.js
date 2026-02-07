@@ -164,17 +164,17 @@ const COMMIT_ART = `
 
 
   REVEAL: [
-    {
+    (data) => ({
       main:
         teal("REVEAL STARTED\n") +
         muted("--------------\n") +
         "SECRETS OPENING...\n" +
         "FINAL SEED: " + teal(short(data?.final_seed)) + "\n" +
-        "TX: " + solscanLink(data?.reveal_tx) + 
+        "TX: " + solscanLink(data?.reveal_tx) + "\n" +
         muted("HASHES MATCHING..."),
       art: ""
-    },
-    {
+    }),
+    (data) => ({
       main:
         teal("REVEAL STARTED\n") +
         muted("--------------\n") +
@@ -182,8 +182,8 @@ const COMMIT_ART = `
         "CHECK 2 " + teal("✓") + "\n" +
         muted("DERIVING ENTROPY..."),
       art: ""
-    },
-    {
+    }),
+    (data) => ({
       main:
         teal("REVEAL STARTED\n") +
         muted("--------------\n") +
@@ -192,8 +192,9 @@ const COMMIT_ART = `
         "FINAL SEED " + teal("DERIVED") + "\n" +
         muted("\nPROOF IN META PANEL ↑"),
       art: ""
-    }
+    })
   ],
+
 
   FINALIZED: [
   (data) => ({
@@ -240,7 +241,8 @@ const COMMIT_ART = `
   function renderMeta(data) {
   if (!termMeta) return;
 
-  const state = data?.round_state ?? "UNKNOWN";
+  const state = normalizeState(data?.round_state ?? "UNKNOWN");
+
 
   // Your backend is moving towards: data.snapshot.{snapshot_id, snapshot_slot, snapshot_root...}
   // But older versions may have flat fields. Support both safely:
@@ -284,12 +286,11 @@ const COMMIT_ART = `
 
     renderFrame(frames[0], lastData);
 
-
     if (state === "IDLE") {
       frame = 0;
       idleTimer = setInterval(() => {
         frame = (frame + 1) % frames.length;
-        renderFrame(frames[frame]);
+        renderFrame(frames[frame], lastData);
       }, 650);
       return;
     }
@@ -300,12 +301,13 @@ const COMMIT_ART = `
       frame++;
       if (frame >= frames.length) {
         stop();
-        renderFrame(frames[frames.length - 1]);
+        renderFrame(frames[frames.length - 1], lastData);
         return;
       }
-      renderFrame(frames[frame]);
+      renderFrame(frames[frame], lastData);
     }, 650);
   }
+
 
 
 function short(s, head = 6, tail = 4) {
