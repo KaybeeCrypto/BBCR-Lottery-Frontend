@@ -440,7 +440,7 @@ const FINALIZE_ART =
     pill("SNAP:", snapshotSlot ? teal(esc(snapshotSlot)) : muted("PENDING")) +
     pill("ROOT:", snapshotRoot ? teal(short(esc(snapshotRoot))) : muted("PENDING")) +
     pill("WIN:", winner ? purple(short(esc(winner))) : muted("—")) +
-    `<br>` +
+    `<div style="height:6px"></div>` +
     `<span class="label">SNAPSHOT_ID:</span> <span class="val">${snapshotId ? teal(short(esc(snapshotId))) : muted("PENDING")}</span> &nbsp; ` +
     `<span class="label">COMMIT_DL:</span> <span class="val">${formatCountdown(commitDeadline)}</span> &nbsp; ` +
     `<span class="label">REVEAL_DL:</span> <span class="val">${formatCountdown(revealDeadline)}</span>`
@@ -451,22 +451,25 @@ const FINALIZE_ART =
     return state;
   }
   
-  function setArtHeight(px) {
+  function setArtScale({ fontSize, lineHeight }) {
     if (!termArt) return;
-    termArt.style.maxHeight = px + "px";
+    if (fontSize) termArt.style.fontSize = fontSize;
+    if (lineHeight) termArt.style.lineHeight = lineHeight;
   }
+
 
   function play(state) {
      switch (state) {
       case "REVEAL":
-        setArtHeight(320);
+        setArtScale({ fontSize: "10px", lineHeight: "1.02" });
         break;
       case "FINALIZED":
-        setArtHeight(300);
+        setArtScale({ fontSize: "9.5px", lineHeight: "1.02" });
         break;
       default:
-        setArtHeight(420);
+        setArtScale({ fontSize: "11px", lineHeight: "1.05" });
     }
+
     
     stop();
     if (idleTimer) {
@@ -591,7 +594,7 @@ function formatCountdown(deadlineIso) {
         pill("SNAP:", muted("—")) +
         pill("ROOT:", muted("—")) +
         pill("WIN:", muted("—")) +
-        `<br>` +
+        `<div style="height:6px"></div>` +
         muted("BACKEND DOWN OR WAKING UP…");
     }
 
