@@ -368,25 +368,28 @@ const FINALIZE_ART =
 ],
 
   FINALIZED: [
-  (data) => {
-    const winner =
-      data?.winner_wallet ??
-      data?.finalize?.winner_wallet ??
-      data?.finalized?.winner_wallet ??
-      null;
+    (data) => {
+      const winner =
+        data?.winner_wallet ??
+        data?.finalize?.winner_wallet ??
+        data?.finalized?.winner_wallet ??
+        null;
 
-    return {
-      main:
-        purple("ROUND FINALIZED\n") +
-        muted("---------------\n") +
-        "WINNER:\n" +
-        (winner ? teal(short(winner)) : muted("—")) + "\n\n" +
-        "🎉 CONGRATS 🎉\n\n" +
-        "VERIFY EVERYTHING ON-CHAIN",
-      art: FINALIZE_ART
-    };
-  }
-]
+      return {
+        main:
+          purple("ROUND FINALIZED\n") +
+          muted("---------------\n") +
+          "WINNER:\n" +
+          (winner
+            ? `<span class="copyable" title="Click to copy">${teal(esc(winner))}</span>\n\n`
+            : muted("—\n\n")
+          ) +
+          "🎉 CONGRATS 🎉\n\n" +
+          "VERIFY EVERYTHING ON-CHAIN",
+        art: FINALIZE_ART
+      };
+    }
+  ]
 };
 
   function solscanLink(signature) {
@@ -433,17 +436,25 @@ const FINALIZE_ART =
   const commitDeadline = data?.commit_deadline;
   const revealDeadline = data?.reveal_deadline;
 
-  const winner = data?.winner_wallet;
-
   termMeta.innerHTML =
-    pill("PHASE:", (state === "FINALIZED" ? purple(state) : teal(state))) +
-    pill("SNAP:", snapshotSlot ? teal(esc(snapshotSlot)) : muted("PENDING")) +
-    pill("ROOT:", snapshotRoot ? teal(short(esc(snapshotRoot))) : muted("PENDING")) +
-    pill("WIN:", winner ? purple(short(esc(winner))) : muted("—")) +
-    `<div style="height:6px"></div>` +
-    `<span class="label">SNAPSHOT_ID:</span> <span class="val">${snapshotId ? teal(short(esc(snapshotId))) : muted("PENDING")}</span> &nbsp; ` +
-    `<span class="label">COMMIT_DL:</span> <span class="val">${formatCountdown(commitDeadline)}</span> &nbsp; ` +
-    `<span class="label">REVEAL_DL:</span> <span class="val">${formatCountdown(revealDeadline)}</span>`
+  // ── ROW 1 ─────────────────────────────
+  pill("PHASE:", (state === "FINALIZED" ? purple(state) : teal(state))) +
+  pill("SNAP:", snapshotSlot ? teal(esc(snapshotSlot)) : muted("PENDING")) +
+  pill("ROOT:", snapshotRoot ? teal(short(esc(snapshotRoot))) : muted("PENDING")) +
+
+  // spacing between rows
+  `<div style="height:6px"></div>` +
+
+  // ── ROW 2 ─────────────────────────────
+  `<span class="label">SNAPSHOT_ID:</span> ` +
+  `<span class="val">${snapshotId ? teal(short(esc(snapshotId))) : muted("PENDING")}</span> &nbsp; ` +
+  `<span class="label">COMMIT_DL:</span> ` +
+  `<span class="val">${formatCountdown(commitDeadline)}</span> &nbsp; ` +
+  `<span class="label">REVEAL_DL:</span> ` +
+  `<span class="val">${formatCountdown(revealDeadline)}</span>` +
+
+  // separator
+  `<div class="meta-sep"></div>`;
   }
 
   function normalizeState(state) {
