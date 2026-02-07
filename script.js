@@ -10,7 +10,9 @@
   const termMeta = document.getElementById("termMeta");
   if (!termMain || !termArt) return;
 
+  let consecutiveFailures = 0;
   let timer = null;
+  let idleTimer = null;
   let frame = 0;
   let lastState = null;
   let cursorOn = true;
@@ -55,7 +57,7 @@
 
 `⢻⣿⡗⢶⣤⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀     ⣀⣀
 ⠀⢻⣇⠀⠈⠙⠳⣦⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⠶⠛⠋⢻⣹⣿⡿
-⠀⠀⠹⣆⠀⠀⠀⠀⠙⢷⣄⣀⣀⣀⣤⣤⣤⣄⣀⣴⠞⠋⠉⠀⠀⠀⢀⣿⡟⠁
+⠀⠀⠹⣆⠀⠀⠀⠀⠙⢷⣄⣀⣀⣀⣤⣤⣤⣄⣀⣴⠞⠋⠉⠀⠀⢀⣿⡟⠁
 ⠀⠀⠀⠙⢷⡀⠀⠀⠀⠀⠉⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⡾⠋⠀⠀
 ⠀⠀⠀⠀⠈⠻⡶⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣠⡾⠋⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⣼⠃⠀⢠⠒⣆⠀⠀⠀⠀⠀⠀⢠⢲⣄⠀⠀⠀⢻⣆⠀⠀⠀⠀⠀
@@ -79,7 +81,7 @@
 
 `⢻⣿⡗⢶⣤⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀     ⣀⣀
 ⠀⢻⣇⠀⠈⠙⠳⣦⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⠶⠛⠋⢻⣹⣿⡿
-⠀⠀⠹⣆⠀⠀⠀⠀⠙⢷⣄⣀⣀⣀⣤⣤⣤⣄⣀⣴⠞⠋⠉⠀⠀⠀⢀⣿⡟⠁
+⠀⠀⠹⣆⠀⠀⠀⠀⠙⢷⣄⣀⣀⣀⣤⣤⣤⣄⣀⣴⠞⠋⠉⠀⠀⢀⣿⡟⠁
 ⠀⠀⠀⠙⢷⡀⠀⠀⠀⠀⠉⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⡾⠋⠀⠀
 ⠀⠀⠀⠀⠈⠻⡶⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣠⡾⠋⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⣼⠃⠀⢠⠒⣆⠀⠀⠀⠀⠀⠀⢠⢲⣄⠀⠀⠀⢻⣆⠀⠀⠀⠀⠀
@@ -115,7 +117,7 @@
     })
   ],
 
-  SNAPSHOT_TAKEN: [
+  SNAPSHOT: [
     {
       main:
         purple("SNAPSHOT TAKEN\n") +
@@ -249,38 +251,41 @@
 }
 
   function play(state) {
-  stop();
+    stop();
+    if (idleTimer) {
+      clearInterval(idleTimer);
+      idleTimer = null;
+    }
 
-  const frames = FRAMES[state] || [{
-    main: muted("COMMIT://LOTTERY_PROTOCOL v1.0...\n") + purple("UNKNOWN STATE"),
-    art: ""
-  }];
+    const frames = FRAMES[state] || [{
+      main: muted("COMMIT://LOTTERY_PROTOCOL v1.0...\n") + purple("UNKNOWN STATE"),
+      art: ""
+    }];
 
-  // Render first instantly
-  renderFrame(frames[0]);
+    renderFrame(frames[0]);
 
-  // IDLE loops forever (good)
-  if (state === "IDLE") {
-    timer = setInterval(() => {
-      renderFrame(frames[frame % frames.length]);
-      frame++;
-    }, 650);
-    return;
-  }
-
-  // Non-IDLE: play through frames once, then stop on last frame
-  if (frames.length <= 1) return;
-
-  timer = setInterval(() => {
-    frame++;
-    if (frame >= frames.length) {
-      stop();
-      renderFrame(frames[frames.length - 1]);
+    if (state === "IDLE") {
+      frame = 0;
+      idleTimer = setInterval(() => {
+        frame = (frame + 1) % frames.length;
+        renderFrame(frames[frame]);
+      }, 650);
       return;
     }
-    renderFrame(frames[frame]);
-  }, 650);
-}
+
+    if (frames.length <= 1) return;
+
+    timer = setInterval(() => {
+      frame++;
+      if (frame >= frames.length) {
+        stop();
+        renderFrame(frames[frames.length - 1]);
+        return;
+      }
+      renderFrame(frames[frame]);
+    }, 650);
+  }
+
 
 function short(s, head = 6, tail = 4) {
   s = String(s ?? "");
@@ -300,7 +305,7 @@ function valOrPending(v, colorFn = teal) {
   
   async function fetchState() {
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 8000);
+    const timeout = setTimeout(() => controller.abort(), 20000);
 
     try {
       const res = await fetch(`${API_BASE}/api/public/state`, {
@@ -325,22 +330,24 @@ function valOrPending(v, colorFn = teal) {
   async function tick() {
     try {
       const data = await fetchState();
-      const state = data.round_state;
+      consecutiveFailures = 0;
 
-      // Always update meta panel
+      const state = data.round_state;
       renderMeta(data);
 
       if (state !== lastState) {
         lastState = state;
         play(state);
       }
-
-      // IDLE still needs manual frame refresh because you're toggling cursor and using art frames
-      if (state === "IDLE") {
-        const frames = FRAMES.IDLE;
-        renderFrame(frames[frame % frames.length]);
-      }
     } catch (e) {
+      consecutiveFailures++;
+
+      // Only show CONNECTING after repeated failures
+      if (consecutiveFailures < 3) {
+        console.warn("Transient fetch failure, keeping UI stable");
+        return;
+      }
+
       console.warn("STATE FETCH FAILED:", e);
 
       if (termMeta) {
@@ -350,7 +357,7 @@ function valOrPending(v, colorFn = teal) {
           pill("ROOT:", muted("—")) +
           pill("WIN:", muted("—")) +
           `<br>` +
-          muted("BACKEND DOWN OR SLEEPING…");
+          muted("BACKEND DOWN OR WAKING UP…");
       }
 
       termMain.innerHTML =
@@ -360,6 +367,7 @@ function valOrPending(v, colorFn = teal) {
       termArt.textContent = "";
     }
   }
+
 
 
   tick();
