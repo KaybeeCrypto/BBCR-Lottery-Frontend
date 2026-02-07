@@ -240,13 +240,16 @@
       font-size: 11px;
       line-height: 1.05;
 
-      /* anchor to bottom-right of its grid cell */
-      display: flex;
-      align-items: flex-end;
-      justify-content: flex-end;
+      /* 🔑 THIS is what you were missing */
+      align-self: end;      /* vertical bottom */
+      justify-self: end;    /* horizontal right */
+
+      /* flex is optional but OK for internal control */
+      display: block;
 
       padding-bottom: 6px;
     }
+
 
 
 
