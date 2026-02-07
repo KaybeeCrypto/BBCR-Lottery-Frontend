@@ -486,11 +486,11 @@ function valOrPending(v, colorFn = teal) {
 }
 
 function formatCountdown(deadlineIso) {
-  if (!deadlineIso) return muted("—");
+  if (!deadlineIso || !lastData?.server_time) return muted("—");
 
-  const now = Date.now();
+  const now = new Date(lastData.server_time).getTime();
   const end = new Date(deadlineIso).getTime();
-  let diff = Math.floor((end - now) / 1000); // seconds remaining
+  let diff = Math.floor((end - now) / 1000);
 
   if (diff <= 0) return purple("ENDED");
 
@@ -501,6 +501,7 @@ function formatCountdown(deadlineIso) {
     `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`
   );
 }
+
   
   async function fetchState() {
     const controller = new AbortController();
@@ -571,10 +572,12 @@ function formatCountdown(deadlineIso) {
 
 
 
+  // initial load
+tick();
+
+// poll backend every 1s
+setInterval(() => {
   tick();
-  setInterval(() => {
-  if (!lastData) return;
-  if (lastState === "FINALIZED") return;
-  renderMeta(lastData);
 }, 1000);
+
 })();
