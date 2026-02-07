@@ -10,11 +10,13 @@
   const termMeta = document.getElementById("termMeta");
   if (!termMain || !termArt) return;
 
+ 
   let consecutiveFailures = 0;
   let timer = null;
   let idleTimer = null;
   let frame = 0;
   let lastState = null;
+  let hasRenderedOnce = false;
   let cursorOn = true;
 
   function withCursor(html) {
@@ -37,6 +39,13 @@
   function muted(text) {
     return `<span style="color: var(--term-muted, rgba(255,255,255,0.6))">${text}</span>`;
   }
+  function esc(s) {
+  return String(s ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
 
   // Blink cursor (single stable timer)
   setInterval(() => {
@@ -222,6 +231,13 @@
     termArt.textContent = out.art || "";
   }
 
+  function esc(s) {
+    return String(s ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+  }
+
   function renderMeta(data) {
   if (!termMeta) return;
 
@@ -332,13 +348,22 @@ function valOrPending(v, colorFn = teal) {
       const data = await fetchState();
       consecutiveFailures = 0;
 
+      function esc(s) {
+        return String(s ?? "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+      }
+
       const state = data.round_state;
       renderMeta(data);
 
-      if (state !== lastState) {
+      if (!hasRenderedOnce || state !== lastState) {
         lastState = state;
+        hasRenderedOnce = true;
         play(state);
       }
+
     } catch (e) {
       consecutiveFailures++;
 
