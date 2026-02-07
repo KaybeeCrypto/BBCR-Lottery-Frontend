@@ -39,12 +39,13 @@
   function muted(text) {
     return `<span style="color: var(--term-muted, rgba(255,255,255,0.6))">${text}</span>`;
   }
+
   function esc(s) {
-  return String(s ?? "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
-}
+    return String(s ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+  }
 
 
   // Blink cursor (single stable timer)
@@ -436,25 +437,30 @@ const FINALIZE_ART =
   const commitDeadline = data?.commit_deadline;
   const revealDeadline = data?.reveal_deadline;
 
-  termMeta.innerHTML =
-  // ── ROW 1 ─────────────────────────────
-  pill("PHASE:", (state === "FINALIZED" ? purple(state) : teal(state))) +
-  pill("SNAP:", snapshotSlot ? teal(esc(snapshotSlot)) : muted("PENDING")) +
-  pill("ROOT:", snapshotRoot ? teal(short(esc(snapshotRoot))) : muted("PENDING")) +
+  termMeta.innerHTML = `
+    <!-- ROW 1 -->
+    <div class="meta-row">
+      ${pill("PHASE:", (state === "FINALIZED" ? purple(state) : teal(state)))}
+      ${pill("SNAP:", snapshotSlot ? teal(esc(snapshotSlot)) : muted("PENDING"))}
+      ${pill("ROOT:", snapshotRoot ? teal(short(esc(snapshotRoot))) : muted("PENDING"))}
+    </div>
 
-  // spacing between rows
-  `<div style="height:6px"></div>` +
+    <!-- ROW 2 -->
+    <div class="meta-row">
+      <span class="label">SNAPSHOT_ID:</span>
+      <span class="val">${snapshotId ? teal(short(esc(snapshotId))) : muted("PENDING")}</span>
 
-  // ── ROW 2 ─────────────────────────────
-  `<span class="label">SNAPSHOT_ID:</span> ` +
-  `<span class="val">${snapshotId ? teal(short(esc(snapshotId))) : muted("PENDING")}</span> &nbsp; ` +
-  `<span class="label">COMMIT_DL:</span> ` +
-  `<span class="val">${formatCountdown(commitDeadline)}</span> &nbsp; ` +
-  `<span class="label">REVEAL_DL:</span> ` +
-  `<span class="val">${formatCountdown(revealDeadline)}</span>` +
+      <span class="label">COMMIT_DL:</span>
+      <span class="val">${formatCountdown(commitDeadline)}</span>
 
-  // separator
-  `<div class="meta-sep"></div>`;
+      <span class="label">REVEAL_DL:</span>
+      <span class="val">${formatCountdown(revealDeadline)}</span>
+    </div>
+
+    <!-- SEPARATOR -->
+    <div class="meta-sep"></div>
+  `;
+
   }
 
   function normalizeState(state) {
@@ -604,7 +610,6 @@ function formatCountdown(deadlineIso) {
         pill("PHASE:", muted("CONNECTING")) +
         pill("SNAP:", muted("—")) +
         pill("ROOT:", muted("—")) +
-        pill("WIN:", muted("—")) +
         `<div class="meta-sep">--------------------</div>` +
         muted("BACKEND DOWN OR WAKING UP…");
     }
