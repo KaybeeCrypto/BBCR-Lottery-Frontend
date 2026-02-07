@@ -219,38 +219,26 @@
       align-self: end;
     }
 
-    #termArt {
-      max-height: 420px;          /* 🔴 KEY LINE */
-      overflow: hidden;           /* hides excess lines */
-      white-space: pre;
-      line-height: 1.05;
-    }
+    .termArt {
+    grid-column: 2;
+    grid-row: 2;
+    margin: 0;
 
-    #termArt {
-      z-index: 1;
-    }
+    white-space: pre;
+    overflow: hidden;
+    pointer-events: none;
 
+    font-size: clamp(10px, 1.8vw, 22px);
+    line-height: 1.1;
 
-    .term-art{
-        grid-column: 2;
-        grid-row: 2;
-        margin: 0;
+    max-height: 420px;        /* controlled by JS */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
 
-        /* keep console look */
-        white-space: pre;
-        overflow: hidden;
-        pointer-events: none;
+    z-index: 1;
+  }
 
-        /* size */
-        font-size: clamp(10px, 1.8vw, 22px);
-        line-height: 1.1;
-
-        /* IMPORTANT: reserve height but anchor content to bottom */
-        min-height: 65%;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;   /* <-- this is the key */
-      }
 
 
 

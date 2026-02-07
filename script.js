@@ -455,20 +455,19 @@ const FINALIZE_ART =
     if (!termArt) return;
     termArt.style.maxHeight = px + "px";
   }
-  
-  // control art size per state
-  switch (state) {
-    case "REVEAL":
-      setArtHeight(320);
-      break;
-    case "FINALIZED":
-      setArtHeight(300);
-      break;
-    default:
-      setArtHeight(420);
-  }
 
   function play(state) {
+     switch (state) {
+      case "REVEAL":
+        setArtHeight(320);
+        break;
+      case "FINALIZED":
+        setArtHeight(300);
+        break;
+      default:
+        setArtHeight(420);
+    }
+    
     stop();
     if (idleTimer) {
       clearInterval(idleTimer);
