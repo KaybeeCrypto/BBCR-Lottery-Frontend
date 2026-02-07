@@ -683,6 +683,7 @@ function formatCountdown(deadlineIso) {
 
     // 🔹 ALWAYS update top terminal info
     renderMeta(lastData);
+    document.body.setAttribute("data-state", state);
 
     // 🔹 Only restart animations if state changed
     if (!hasRenderedOnce || state !== lastState) {
