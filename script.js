@@ -139,7 +139,7 @@ const COMMIT_ART = `
         purple("SNAPSHOT TAKEN\n") +
         muted("--------------\n") +
         "HOLDERS " + teal("LOCKED") + "\n\n" +
-        "TX: " + solscanLink(data?.snapshot_tx),
+        "TX: " + solscanLink(data?.snapshot?.snapshot_tx_sig),
       art: ""
     })
   ],
@@ -170,7 +170,7 @@ const COMMIT_ART = `
         muted("--------------\n") +
         "SECRETS OPENING...\n" +
         "FINAL SEED: " + teal(short(data?.final_seed)) + "\n" +
-        "TX: " + solscanLink(data?.reveal_tx) + "\n" +
+        "TX: " + solscanLink(data?.reveal?.reveal_tx_sig) + "\n" +
         muted("HASHES MATCHING..."),
       art: ""
     }),
