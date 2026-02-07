@@ -5,6 +5,18 @@
   .then(j => console.log("BACKEND OK:", j))
   .catch(e => console.error("BACKEND DOWN:", e));
 
+  const walletInput = document.getElementById("wallet");
+  const checkBtn = document.querySelector(".eligibility-card button");
+
+  if (walletInput && checkBtn) {
+    walletInput.addEventListener("input", () => {
+      const v = walletInput.value.trim();
+      checkBtn.disabled = v.length < 32 || v.length > 44;
+      checkBtn.style.cursor = checkBtn.disabled ? "not-allowed" : "pointer";
+    });
+  }
+
+
   const termMain = document.getElementById("termMain");
   const termArt  = document.getElementById("termArt");
   const termMeta = document.getElementById("termMeta");
@@ -557,7 +569,56 @@ function formatCountdown(deadlineIso) {
   );
 }
 
-  
+  async function checkEligibility(wallet) {
+    if (!lastData?.snapshot?.snapshot_id) {
+      throw new Error("No snapshot available");
+    }
+
+    const snapshotId = lastData.snapshot.snapshot_id;
+    const url = `${API_BASE}/api/public/eligibility/${snapshotId}/${wallet}`;
+
+    const res = await fetch(url, { cache: "no-store" });
+    if (!res.ok) throw new Error("Eligibility check failed");
+
+    return res.json();
+  }
+
+  if (checkBtn && walletInput) {
+    checkBtn.addEventListener("click", async () => {
+      const wallet = walletInput.value.trim();
+      if (!wallet) return;
+
+      checkBtn.disabled = true;
+      checkBtn.textContent = "CHECKING…";
+
+      try {
+        const result = await checkEligibility(wallet);
+
+        if (result.eligible) {
+          checkBtn.textContent = "ELIGIBLE ✓";
+          checkBtn.style.borderColor = "#00ffa3";
+          checkBtn.style.color = "#00ffa3";
+        } else {
+          checkBtn.textContent = "NOT ELIGIBLE ✕";
+          checkBtn.style.borderColor = "#dc1fff";
+          checkBtn.style.color = "#dc1fff";
+        }
+
+      } catch (e) {
+        checkBtn.textContent = "ERROR";
+        console.error(e);
+      }
+
+      setTimeout(() => {
+        checkBtn.disabled = false;
+        checkBtn.textContent = "CHECK ELIGIBILITY";
+        checkBtn.style.borderColor = "";
+        checkBtn.style.color = "";
+      }, 2500);
+    });
+  }
+
+
   async function fetchState() {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 20000);
