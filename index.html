@@ -428,6 +428,21 @@
       }
 
       .term-meta {
+        overflow: visible;          /* allow content to expand */
+        white-space: normal;        /* allow wrapping */
+        display: block;             /* stop grid compression */
+      }
+
+      .meta-row {
+        flex-wrap: wrap;            /* allow pills to wrap */
+        row-gap: 4px;
+      }
+
+      .term-meta .pill {
+        white-space: nowrap;        /* keep pills intact */
+      }
+      
+      .term-meta {
         font-size: 7px;        /* smaller, calmer */
         line-height: 1.3;
       }
