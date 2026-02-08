@@ -84,7 +84,7 @@
 ⠀⠀⠀⠀⠈⠻⡶⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣠⡾⠋⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⣼⠃⠀⢠⠒⣆⠀⠀⠀⠀⠀⠀⢠⢲⣄⠀⠀⠀⢻⣆⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⢰⡏⠀⠀⠈⠛⠋⠀⢀⣀⡀⠀⠀⠘⠛⠃⠀⠀⠀⠈⣿⡀⠀⠀⠀⠀
-⠀⠀⠀⠀⣾⡟⠛⢳⠀⠀⠀⠀⠀⣉⣀⠀⠀⠀⠀⣰⠛⠙⣶⠀⢹⣇⠀⠀⠀⠀
+⠀⠀⠀⠀⣾⡟⠛⢳⠀⠀⠀⠀⠀⣉⣀⠀⠀⠀⠀⣰⠛⠙⣶  ⢹⣇⠀⠀⠀⠀
 ⠀⠀⠀⠀⢿⡗⠛⠋⠀⠀⠀⠀⣾⠋⠀⢱⠀⠀⠀⠘⠲⠗⠋⠀⠈⣿⠀⠀⠀⠀
 ⠀⠀⠀⠀⠘⢷⡀⠀⠀⠀⠀⠀⠈⠓⠒⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⡇⠀⠀⠀
 ⠀⠀⠀⠀⠀⠈⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣧⠀⠀⠀
@@ -183,7 +183,7 @@ const SNAP_CAM_1 =
 
 
 `
-     ⠀⠀⠀⠀⠀⠀⠀⢠⠶⣞⡩⠽⢷⣆⣀⠀⠀⠀⠀⠀⠀
+     ⠀⠀⠀⠀⠀⢠⠶⣞⡩⠽⢷⣆⣀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⢀⣀⡤⢿⠀⢹⠖⠒⡛⠧⠐⠉⣧⠀⠀⠀⠀
 ⠀⢀⡠⠴⣲⣭⡁⠲⠇⢈⡑⢚⠪⠭⠤⠤⢄⣀⣿⠀⠀⠀⠀
 ⢠⠃⠤⠄⠉⠉⠀⠐⠉⣡⠞⠁⢀⡴⠞⠉⢉⣩⠿⠶⠤⣄⠀
@@ -207,7 +207,7 @@ const SNAP_CAM_2 =
 
 
 `
-     ⠀⠀⠀⠀⠀⠀⠀⢠⠶⣞⡩⠽⢷⣆⣀⠀⠀⠀⠀⠀⠀
+    ⠀⠀⠀⠀⠀⠀⢠⠶⣞⡩⠽⢷⣆⣀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⢀⣀⡤⢿⠀⢹⠖⠒⡛⠧⠐⠉⣧⠀⠀⠀⠀
 ⠀⢀⡠⠴⣲⣭⡁⠲⠇⢈⡑⢚⠪⠭⠤⠤⢄⣀⣿⠀⠀⠀⠀
 ⢠⠃⠤⠄⠉⠉⠀⠐⠉⣡⠞⠁⢀⡴⠞⠉⢉⣩⠿⠶⠤⣄⠀
@@ -338,7 +338,7 @@ const FINALIZE_ART =
       muted("--------------\n") +
       "HOLDERS " + teal("LOCKED") + "\n\n" +
       "TX: " + solscanLink(data?.snapshot?.snapshot_tx_sig),
-    art: SNAP_CAM_2
+    art: SNAP_CAM_1
   })
 ],
 
@@ -488,16 +488,15 @@ const FINALIZE_ART =
 
 
   function play(state) {
-     switch (state) {
-      case "REVEAL":
-        setArtScale({ fontSize: "10px", lineHeight: "1.02" });
-        break;
-      case "FINALIZED":
-        setArtScale({ fontSize: "9.5px", lineHeight: "1.02" });
-        break;
-      default:
-        setArtScale({ fontSize: "11px", lineHeight: "1.05" });
+    // Lock art metrics for ALL animated states
+    if (state === "IDLE" || state === "SNAPSHOT" || state === "COMMIT") {
+      setArtScale({ fontSize: "11px", lineHeight: "1.05" });
     }
+
+    if (state === "FINALIZED") {
+      setArtScale({ fontSize: "9.5px", lineHeight: "1.02" });
+    }
+
 
     
     stop();
