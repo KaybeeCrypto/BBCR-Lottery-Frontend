@@ -422,6 +422,23 @@
         overflow: visible;
       }
 
+      #matrixCanvas {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        opacity: 0.12;
+        pointer-events: none;
+      }
+
+      .term-meta,
+      .term-main,
+      .term-art {
+        position: relative;
+        z-index: 2;
+      }
+
       /* Stack content cleanly */
       .term-meta {
         margin-bottom: 10px;
@@ -594,11 +611,13 @@
         </div>
 
         <div class="terminal-body" id="roundTerminal">
+          <canvas id="matrixCanvas"></canvas>
+
           <div id="termMeta" class="term-meta"></div>
           <pre id="termMain" class="term-main"></pre>
           <pre id="termArt" class="term-art"></pre>
         </div>
-      </div>
+
 
       <!-- WALLET CHECK MUST BE OUTSIDE .terminal (foolproof) -->
       <div class="eligibility-card">

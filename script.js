@@ -724,4 +724,73 @@ setInterval(() => {
   tick();
 }, 1000);
 
+
+/* ==============================
+   MATRIX BACKGROUND (TERMINAL)
+================================= */
+
+const matrixCanvas = document.getElementById("matrixCanvas");
+
+if (matrixCanvas) {
+  const ctx = matrixCanvas.getContext("2d");
+
+  function resizeCanvas() {
+    const rect = matrixCanvas.parentElement.getBoundingClientRect();
+    matrixCanvas.width = rect.width;
+    matrixCanvas.height = rect.height;
+  }
+
+  resizeCanvas();
+  window.addEventListener("resize", resizeCanvas);
+
+  const chars = "01COMMITREVEALSOLANA$";
+  const fontSize = 14;
+  let columns = Math.floor(matrixCanvas.width / fontSize);
+  let drops = Array(columns).fill(1);
+
+  function resetColumns() {
+    columns = Math.floor(matrixCanvas.width / fontSize);
+    drops = Array(columns).fill(1);
+  }
+
+  window.addEventListener("resize", () => {
+    resizeCanvas();
+    resetColumns();
+  });
+
+  function drawMatrix() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.15)";
+    ctx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
+
+    const gradient = ctx.createLinearGradient(
+      0,
+      0,
+      0,
+      matrixCanvas.height
+    );
+    gradient.addColorStop(0, "#dc1fff");
+    gradient.addColorStop(1, "#00ffa3");
+
+    ctx.fillStyle = gradient;
+    ctx.font = fontSize + "px monospace";
+
+    for (let i = 0; i < drops.length; i++) {
+      const text =
+        chars[Math.floor(Math.random() * chars.length)];
+      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+      if (
+        drops[i] * fontSize > matrixCanvas.height &&
+        Math.random() > 0.975
+      ) {
+        drops[i] = 0;
+      }
+
+      drops[i]++;
+    }
+  }
+
+  setInterval(drawMatrix, 40);
+}
+
 })();
