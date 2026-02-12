@@ -184,6 +184,29 @@
       overflow:hidden;
       display:grid;
 
+    #matrixCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      opacity: 0.12;
+      pointer-events: none;
+      grid-column: 1 / -1;
+      grid-row: 1 / -1;
+    }
+
+
+    /* ensure real content stays above */
+    .term-meta,
+    .term-main,
+    .term-art {
+      position: relative;
+      z-index: 2;
+    }
+
+
       /* NEW: meta row + content row */
       grid-template-columns: 1fr auto;
       grid-template-rows: auto 1fr;
@@ -420,16 +443,6 @@
       .terminal-body {
         display: block;
         overflow: visible;
-      }
-
-      #matrixCanvas {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 0;
-        opacity: 0.12;
-        pointer-events: none;
       }
 
       .term-meta,
