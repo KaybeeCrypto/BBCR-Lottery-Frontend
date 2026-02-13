@@ -489,13 +489,19 @@ const FINALIZE_ART =
 
   function play(state) {
     // Lock art metrics for ALL animated states
-    if (state === "IDLE" || state === "SNAPSHOT" || state === "COMMIT") {
-      setArtScale({ fontSize: "11px", lineHeight: "1.05" });
+    if (window.innerWidth >= 900) {
+      if (state === "IDLE" || state === "SNAPSHOT" || state === "COMMIT") {
+        setArtScale({ fontSize: "11px", lineHeight: "1.05" });
+      }
+
+      if (state === "FINALIZED") {
+        setArtScale({ fontSize: "9.5px", lineHeight: "1.02" });
+      }
+    } else {
+      termArt.style.fontSize = "";
+      termArt.style.lineHeight = "";
     }
 
-    if (state === "FINALIZED") {
-      setArtScale({ fontSize: "9.5px", lineHeight: "1.02" });
-    }
 
 
     
@@ -791,6 +797,10 @@ if (matrixCanvas) {
       drops[i]++;
     }
   }
+  if (matrixCanvas) {
+  resizeCanvas();
+  resetColumns();
+}
 
   setInterval(drawMatrix, 40);
 }
