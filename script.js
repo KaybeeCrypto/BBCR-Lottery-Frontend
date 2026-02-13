@@ -744,7 +744,7 @@ if (matrixCanvas) {
   window.addEventListener("resize", resizeCanvas);
 
   const chars = "01COMMITREVEALSOLANA$";
-  const fontSize = 14;
+  let fontSize = window.innerWidth < 820 ? 10 : 14;
   let columns = Math.floor(matrixCanvas.width / fontSize);
   let drops = Array(columns).fill(1);
 
@@ -754,9 +754,11 @@ if (matrixCanvas) {
   }
 
   window.addEventListener("resize", () => {
+    fontSize = window.innerWidth < 820 ? 10 : 14;
     resizeCanvas();
     resetColumns();
   });
+
 
   function drawMatrix() {
     ctx.fillStyle = "rgba(0, 0, 0, 0.15)";
