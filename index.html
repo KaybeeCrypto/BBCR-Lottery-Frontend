@@ -125,28 +125,6 @@
 
     .round { padding: 40px 32px; }
 
-    .server-status {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 9px;
-    }
-
-    .status-dot {
-      width: 8px;
-      height: 8px;
-      background: #00ff5f;
-      border-radius: 50%;
-      box-shadow: 0 0 6px rgba(0,255,95,0.8);
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0% { opacity: 0.6; }
-      50% { opacity: 1; }
-      100% { opacity: 0.6; }
-    }
-
     .terminal {
       border: 2px solid var(--line);
       width: 100%;
@@ -441,11 +419,24 @@
         row-gap: 14px;
         padding: 16px;                  /* a bit more room on small screens */
       }
+      .terminal-body {
+        aspect-ratio: auto;       /* stop forced compression */
+        min-height: 280px;        /* give real breathing room */
+      }
 
       .term-meta{
         grid-column: 1 / -1;
         grid-row: 1;
+
+        font-size: 6px;      /* smaller */
+        line-height: 1.25;
+        row-gap: 4px;
+        column-gap: 6px;
+
+        display: grid;
+        grid-template-columns: auto auto;
       }
+
 
       .term-main{
         grid-column: 1;
@@ -579,10 +570,6 @@
       <div class="terminal">
         <div class="terminal-header">
           <span>COMMIT://ROUND_CONSOLE</span>
-          <span class="server-status">
-            <span class="status-dot"></span>
-            SERVER STATUS
-          </span>
         </div>
 
         <div class="terminal-body" id="roundTerminal">
