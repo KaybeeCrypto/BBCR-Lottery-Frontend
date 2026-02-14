@@ -175,7 +175,7 @@
     .copyable:active {
       opacity: 0.7;
     }
-    
+
     .terminal-body {
       flex: 1;
       padding: 20px;
@@ -449,6 +449,9 @@
         grid-template-rows: auto auto auto;
         row-gap: 16px;
       }
+      .terminal-body {
+        position: relative;
+      }
 
       .term-meta,
       .term-main,
@@ -468,10 +471,19 @@
       }
 
       .term-art {
-        grid-column: 1;
-        grid-row: 3;
-        justify-self: start;
+        position: absolute;
+        bottom: 12px;
+        right: 12px;
+
+        white-space: pre;
+        pointer-events: none;
+
+        font-size: clamp(5px, 1.6vw, 9px);
+        line-height: 1.05;
+
+        opacity: 0.9;
       }
+
       /* Stack content cleanly */
       .term-meta {
         margin-bottom: 10px;
