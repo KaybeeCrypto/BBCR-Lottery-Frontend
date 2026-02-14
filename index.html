@@ -411,6 +411,10 @@
    
     /* ===== MOBILE / SMALL SCREENS ===== */
     @media (max-width: 820px) {
+      .terminal-body {
+        overflow: visible;     /* allow content to expand */
+      }
+
       .terminal-body{
         display: grid;
         grid-template-columns: 1fr auto; /* text left, art right */
@@ -421,7 +425,7 @@
       }
       .terminal-body {
         aspect-ratio: auto;       /* stop forced compression */
-        min-height: 280px;        /* give real breathing room */
+        min-height: 320px;        /* give real breathing room */
       }
 
       .term-meta{
@@ -433,8 +437,12 @@
         row-gap: 4px;
         column-gap: 6px;
 
-        display: grid;
-        grid-template-columns: auto auto;
+        display: block;        /* remove inner grid compression */
+        overflow: visible;
+      }
+
+      .term-meta .pill {
+        margin-bottom: 4px;
       }
 
 
