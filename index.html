@@ -69,7 +69,34 @@
       object-fit: contain;
       pointer-events: none;
     }
+    .ca-box{
+      max-width: 900px;
+      margin: 16px auto 22px;        /* space under WELCOME row, above FAIR-LAUNCH */
+      border: 2px solid var(--line);
+      padding: 12px 14px;
 
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      font-size: 12px;
+      letter-spacing: 0.04em;
+
+      background: transparent;
+    }
+
+    .ca-box .ca-label{
+      opacity: 0.9;
+      flex: 0 0 auto;               /* keep "CA:" pinned left */
+    }
+
+    .ca-box .ca-value{
+      flex: 1 1 auto;
+      text-align: left;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;          /* keeps it in one line on desktop */
+    }
     /* ===== HERO WELCOME TEXT (BIGGER) ===== */
     .welcome-title-row span{
       font-size: clamp(22px, 4vw, 32px);
@@ -441,7 +468,7 @@
 
         overflow: visible;
       }
-      
+
       .meta-row{
         flex-wrap: wrap;
         white-space: normal;
@@ -526,6 +553,11 @@
           playsinline
         ></video>
       </div>
+    </div>
+
+    <div class="ca-box">
+      <div class="ca-label">CA:</div>
+      <div class="ca-value">TBA</div>
     </div>
 
     <section class="section" style="text-align:center;">
