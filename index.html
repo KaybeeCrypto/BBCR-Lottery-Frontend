@@ -69,33 +69,50 @@
       object-fit: contain;
       pointer-events: none;
     }
+    .ca-wrap{
+      width: min(760px, 92%);     /* less wide than before */
+      margin: 16px auto 22px;     /* centered */
+      text-align: center;
+    }
+
+    .ca-header{
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.10em;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
     .ca-box{
-      max-width: 900px;
-      margin: 16px auto 22px;        /* space under WELCOME row, above FAIR-LAUNCH */
       border: 2px solid var(--line);
       padding: 12px 14px;
 
-      display: flex;
+      display: grid;
+      grid-template-columns: auto 1fr auto;  /* label | centered value | spacer */
       align-items: center;
-      gap: 12px;
+      column-gap: 12px;
 
       font-size: 12px;
       letter-spacing: 0.04em;
-
       background: transparent;
     }
 
     .ca-box .ca-label{
+      justify-self: start;     /* hard left */
       opacity: 0.9;
-      flex: 0 0 auto;               /* keep "CA:" pinned left */
     }
 
     .ca-box .ca-value{
-      flex: 1 1 auto;
-      text-align: left;
+      justify-self: center;    /* true center */
+      text-align: center;
       overflow: hidden;
       text-overflow: ellipsis;
-      white-space: nowrap;          /* keeps it in one line on desktop */
+      white-space: nowrap;
+    }
+
+    /* spacer equals label width so center stays centered */
+    .ca-box .ca-spacer{
+      visibility: hidden;      /* takes space, not visible */
     }
     /* ===== HERO WELCOME TEXT (BIGGER) ===== */
     .welcome-title-row span{
@@ -438,6 +455,16 @@
    
     /* ===== MOBILE / SMALL SCREENS ===== */
     @media (max-width: 820px) {
+
+      .ca-box{
+          font-size: 10px;
+        }
+        .ca-box .ca-value{
+          white-space: normal;
+          word-break: break-all;
+        }
+      }
+
       .terminal-body {
         overflow: visible;     /* allow content to expand */
       }
@@ -503,7 +530,7 @@
         max-width: 42vw;                /* key: prevents it from demanding too much width */
         overflow: hidden;               /* keep it inside */
       }
-    }
+    
 
 
   </style>
@@ -555,10 +582,16 @@
       </div>
     </div>
 
-    <div class="ca-box">
-      <div class="ca-label">CA:</div>
-      <div class="ca-value">TBA</div>
+    <div class="ca-wrap">
+      <div class="ca-header">CONTRACT ADDRESS</div>
+
+      <div class="ca-box">
+        <div class="ca-label">CA:</div>
+        <div class="ca-value">TBA</div>
+        <div class="ca-spacer">CA:</div>
+      </div>
     </div>
+
 
     <section class="section" style="text-align:center;">
       <div style="font-size:18px; margin-bottom:18px;">
